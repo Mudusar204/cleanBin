@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import Navbar from "../components/Navbar/Navbar";
 import ServiceCard from "../components/ServiceCard/ServiceCard";
@@ -84,13 +85,22 @@ export default function Home() {
 
       {/* header */}
       <div className="bg-white py-[100px] px-[15%] w-[100%] flex justify-center h-auto">
-        <div className="relative rounded-[100%] border-[15px] border-black p-[30px] h-[800px] w-[800px]">
-          <div className="bg-[#CFE6FA]  rounded-[100%] w-full h-full flex flex-col justify-center items-center text-[110px] font-extrabold">
+        <div className="relative rounded-[100%] border-[15px] border-black p-[30px] max-lg:h-[650px] max-sm:h-[500px]  h-[800px] w-[800px]">
+          <div className="bg-[#CFE6FA]  rounded-[100%] w-full h-full flex flex-col justify-center items-center text-[110px] max-lg:text-[80px] max-md:text-[60px] font-extrabold">
             <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[10] ">
               <p>LAUNDRY</p> <p>○ SHOP ○</p>
+              <p className="flex justify-center">
+                <img
+                  height={70}
+                  width={70}
+                  src="/topArrow.png"
+                  className="mt-[40px] rotate-180"
+                  alt=""
+                />
+              </p>
             </div>
             <div
-              className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[1] h-[600px] rounded-[100%] w-[600px]"
+              className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[1] h-[600px] max-lg:h-[500px] max-sm:h-[320px] max-lg:w-[500px] max-sm:w-[320px] rounded-[100%] w-[600px]"
               style={{
                 backgroundImage: "url('/shirt.gif')",
                 backgroundSize: "cover",
