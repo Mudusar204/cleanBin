@@ -1,113 +1,221 @@
 import Image from "next/image";
-
+import Navbar from "../components/Navbar/Navbar";
+import ServiceCard from "../components/ServiceCard/ServiceCard";
+import PriceCard from "../components/PriceCard/PriceCard";
 export default function Home() {
+  let services = [
+    {
+      bg: "#E1EDF9",
+      img: "/serviceImg1.png",
+      heading: "SELF SERVICE",
+      title: "Enjoy our relaxing atmosphere, while your laundry washed",
+      description:
+        "I'm a paragraph. Use this area to describe one of your services. You can change the title to the service you provide and use this text area to describe your service. Feel free to change the image.",
+    },
+    {
+      bg: "",
+
+      img: "/serviceImg2.png",
+      heading: "DROP-OFF SERVICE",
+      title: "Drop your laundry off in our Shop, and let us do it all for you.",
+      description:
+        "I'm a paragraph. Use this area to describe one of your services. You can change the title to the service you provide and use this text area to describe your service. Feel free to change the image.",
+    },
+    {
+      bg: "#E1EDF9",
+
+      img: "/serviceImg3.png",
+      heading: "FULL SERVICE",
+      title: "You Order > We Collect > We Clean > We Deliver",
+      description:
+        "I'm a paragraph. Use this area to describe one of your services. You can change the title to the service you provide and use this text area to describe your service. Feel free to change the image.",
+    },
+    {
+      bg: "",
+
+      img: "/serviceImg4.png",
+      heading: "COMMERCIAL",
+      title: "Let us do the laundry for your business",
+      description:
+        "I'm a paragraph. Use this area to describe one of your services. You can change the title to the service you provide and use this text area to describe your service. Feel free to change the image..",
+    },
+  ];
+
+  let priceCard = [
+    {
+      bg: "#DCEEFC",
+      heading: "WASH & FOLD SERVICE",
+      img: "/priceCard1.png",
+      shirt: 2,
+      suitJacket: 3,
+      suitPent: 3,
+      skirtDress: 5,
+      pants: 1,
+      blouse: 9,
+    },
+    {
+      bg: "",
+
+      heading: "DRY-CLEANING SERVICE",
+      img: "/priceCard2.png",
+      shirt: 2,
+      suitJacket: 3,
+      suitPent: 3,
+      skirtDress: 5,
+      pants: 1,
+      blouse: 9,
+    },
+    {
+      bg: "#DCEEFC",
+
+      heading: "IRONING SERVICE",
+      img: "/priceCard3.png",
+      shirt: 2,
+      suitJacket: 3,
+      suitPent: 3,
+      skirtDress: 5,
+      pants: 1,
+      blouse: 9,
+    },
+  ];
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <div>
+      <Navbar />
+
+      {/* header */}
+      <div className="bg-white py-[100px] px-[15%] w-[100%] flex justify-center h-auto">
+        <div className="relative rounded-[100%] border-[15px] border-black p-[30px] h-[800px] w-[800px]">
+          <div className="bg-[#CFE6FA]  rounded-[100%] w-full h-full flex flex-col justify-center items-center text-[110px] font-extrabold">
+            <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[10] ">
+              <p>LAUNDRY</p> <p>○ SHOP ○</p>
+            </div>
+            <div
+              className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[1] h-[600px] rounded-[100%] w-[600px]"
+              style={{
+                backgroundImage: "url('/shirt.gif')",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
+            ></div>
+          </div>
         </div>
       </div>
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-full sm:before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full sm:after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
+      {/* Serivices section */}
+      <div className=" ">
+        <div className="bg-[#CFE6FA] pt-[100px] pb-[50px] px-[15%]">
+          <p className="text-[55px] font-extrabold ">
+            {" "}
+            <span className="border-b-[10px] border-black pb-[20px]">
+              OUR SERV
+            </span>
+            ICES
+          </p>
+          <p className="text-[20px] font-thin mt-[50px]">
+            OUR SERVICES I'm a paragraph. Click here to add your own text and
+            edit me. It’s easy. Just click “Edit Text” or double click me to add
+            your own content and make changes to the font. I’m a great place for
+            you to tell a story and let your users know a little more about you.
+          </p>
+        </div>
+        {services.map((service, index) => (
+          <ServiceCard
+            heading={service.heading}
+            title={service.title}
+            description={service.description}
+            img={service.img}
+            bg={service.bg}
+          />
+        ))}
+      </div>
+      {/* Pricing section */}
+      <div>
+        <div className="bg-[#E1EDF9] pt-[100px] pb-[50px] px-[15%]">
+          <p className="text-[55px] font-extrabold ">
+            {" "}
+            <span className="border-b-[10px] border-black pb-[20px]">
+              PRICELIST
+            </span>
+          </p>
+          <p className="text-[20px] font-thin mt-[50px]">
+            OUR SERVICES I'm a paragraph. Click here to add your own text and
+            edit me. It’s easy. Just click “Edit Text” or double click me to add
+            your own content and make changes to the font. I’m a great place for
+            you to tell a story and let your users know a little more about you.
+          </p>
+        </div>
+        <div className="flex justify-center max-2xl:flex-wrap max-2xl:gap-[30px] bg-[#E6F3FF]">
+          {priceCard.map((service, index) => (
+            <PriceCard
+              heading={service.heading}
+              shirtPrice={service.shirt}
+              suitJacketPrice={service.suitJacket}
+              suitJacketPent={service.suitPent}
+              skirtDressPrice={service.skirtDress}
+              pentPrice={service.pants}
+              blousePrice={service.blouse}
+              img={service.img}
+              bg={service.bg}
+            />
+          ))}
+        </div>
+      </div>
+      {/* Contact Us */}
+      <div>
+        <div className="bg-[#E1EDF9] pt-[100px] pb-[50px] px-[15%]">
+          <p className="text-[55px] font-extrabold ">
+            <span className="border-b-[10px] border-black pb-[20px]">
+              CONTACT
+            </span>
+          </p>
+          <div className="flex justify-between gap-[100px] mt-[60px]">
+            <div className="flex flex-col gap-[20px]">
+              <div>
+                <p className="text-[24px] font-extrabold">ADDRESS</p>
+                <p className="text-[24px] font-thin">
+                  500 Terry Francine Street San Francisco,CA 94158
+                </p>
+              </div>
+              <div>
+                <p className="text-[24px] font-extrabold">TEL</p>
+                <p className="text-[24px] font-thin">123-456-7890</p>
+              </div>
+            </div>
+            <div className="flex flex-col gap-[20px]">
+              <div>
+                <p className="text-[24px] font-extrabold">EMAIL</p>
+                <p className="text-[24px] font-thin">info@mysite.com</p>
+              </div>
+              <div>
+                <p className="text-[24px] font-extrabold">OPENING HOURS</p>
+                <p className="text-[24px] font-thin">
+                  Mon - Fri: 8am - 8pm <br />
+                  ​​Saturday: 9am - 7pm <br />
+                  ​Sunday: 9am - 8pm
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <img className="my-[20px]" src="/mapImg.png" alt="" />
+      </div>
+      {/* footer */}
+      <div className="bg-[#E1EDF9] pb-[50px] flex flex-col justify-center items-center ">
+        <img
+          height={70}
+          width={70}
+          src="/topArrow.png"
+          className="mt-[40px]"
+          alt=""
         />
+        <p className="text-[24px] font-extrabold text-center mb-[40px] ">
+          BACK TO TOP
+        </p>
+
+        <p className="text-[20px] font-thin text-center">
+          © 2035 by Laundry Shop. Powered and secured by Wix
+        </p>
       </div>
-
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50 text-balance`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+    </div>
   );
 }
