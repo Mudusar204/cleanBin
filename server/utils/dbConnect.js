@@ -22,6 +22,7 @@ async function dbConnect() {
     });
 
     cachedDb = db;
+    console.log("db connected");
     return db;
   } catch (error) {
     console.error('MongoDB connection error:', error);
@@ -30,3 +31,5 @@ async function dbConnect() {
 }
 
 export default dbConnect;
+
+
