@@ -15,7 +15,7 @@ import { useRouter } from "next/navigation";
 // });
 // Google Font Montserrat with weight 600 for Latin subset
 
-const page = () => {
+const Page = () => {
   const router=useRouter()
   const [email, setEmail] = useState("");
   const [data, setData] = useState({});
@@ -180,7 +180,7 @@ const page = () => {
             </button>
             <Link href={"/signup"}>
               <p className="text-sm text-black text-center mt-[20px]">
-                Don't have a account? &nbsp;
+                Don{`&apos;`}t have a account? &nbsp;
                 <span className="underline">SignUp</span>
               </p>
             </Link>
@@ -206,4 +206,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

@@ -173,53 +173,10 @@ export default function Home() {
         </div>
       </div>
       {/* Contact Us */}
-      <div>
-        <div className="bg-[#E1EDF9] pt-[100px] pb-[50px] px-[15%]">
-          <p className="text-[55px] font-extrabold ">
-            <span className="border-b-[10px] border-black pb-[20px]">
-              CONTACT
-            </span>
-          </p>
-          <div className="flex justify-between gap-[100px] mt-[60px]">
-            <div className="flex flex-col gap-[20px]">
-              <div>
-                <p className="text-[24px] font-extrabold">ADDRESS</p>
-                <p className="text-[24px] font-thin">
-                  500 Terry Francine Street San Francisco,CA 94158
-                </p>
-              </div>
-              <div>
-                <p className="text-[24px] font-extrabold">TEL</p>
-                <p className="text-[24px] font-thin">123-456-7890</p>
-              </div>
-            </div>
-            <div className="flex flex-col gap-[20px]">
-              <div>
-                <p className="text-[24px] font-extrabold">EMAIL</p>
-                <p className="text-[24px] font-thin">info@mysite.com</p>
-              </div>
-              <div>
-                <p className="text-[24px] font-extrabold">OPENING HOURS</p>
-                <p className="text-[24px] font-thin">
-                  Mon - Fri: 8am - 8pm <br />
-                  ​​Saturday: 9am - 7pm <br />
-                  ​Sunday: 9am - 8pm
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <img className="my-[20px]" src="/mapImg.png" alt="" />
-      </div>
+
       {/* footer */}
-      <div className="bg-[#E1EDF9] pb-[50px] flex flex-col justify-center items-center ">
-        <img
-          height={70}
-          width={70}
-          src="/topArrow.png"
-          className="mt-[40px]"
-          alt=""
-        />
+      <div className="bg-[#E1EDF9] pt-5 pb-[50px] flex flex-col justify-center items-center ">
+    
         <p className="text-[24px] font-extrabold text-center mb-[40px] ">
           BACK TO TOP
         </p>

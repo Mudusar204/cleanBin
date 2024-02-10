@@ -16,6 +16,7 @@
 // export default Navbar;
 
 "use client"
+import Link from "next/link";
 import React, { useState } from "react";
 
 const Navbar = () => {
@@ -63,7 +64,8 @@ const Navbar = () => {
         <div className={`lg:flex ${isMenuOpen ? 'flex flex-col' : 'hidden'} text-[28px] max-xl:text-[20px] font-extrabold`}>
           <p className="mx-4 cursor-pointer">OUR SERVICES</p>
           <p className="mx-4 cursor-pointer">PRICELIST</p>
-          <p className="mx-4 cursor-pointer">CONTACT</p>
+          <Link href={"/login"} className="mx-4 cursor-pointer">LOGIN</Link>
+          <Link href={"/signup"} className="mx-4 cursor-pointer">SIGNUP</Link>
         </div>
       </div>
     </div>

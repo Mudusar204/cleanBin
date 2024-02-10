@@ -21,7 +21,7 @@ const pageVariants = {
 };
 
 // The main Signup component
-const page = () => {
+const Page = () => {
   const router=useRouter()
   const [username, setUsername] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -544,7 +544,7 @@ else{throw new Error}
                   </button>
                   <Link href={"/login"}>
                     <p className="text-sm text-black text-center mt-[20px]">
-                      Don't have a account? &nbsp;
+                      Don{`&apos;`}t have a account? &nbsp;
                       <span className="underline">Login</span>
                     </p>
                   </Link>
@@ -782,4 +782,4 @@ else{throw new Error}
   );
 };
 
-export default page;
+export default Page;
