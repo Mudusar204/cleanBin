@@ -7,22 +7,36 @@ import {
   UserCircleIcon,
 } from "@heroicons/react/24/solid";
 
-import { useContext, createContext, useState } from "react";
+import { useContext, createContext, useState ,useEffect} from "react";
 
 // @ts-ignore
 const SidebarContext = createContext();
 
 // @ts-ignore
 export default function Sidebar({ children }) {
+  useEffect(() => {
+    const handleResize = () => {
+      setExpanded(window.innerWidth >= 640);
+    };
+
+    // Initial check on mount
+    handleResize();
+
+    // Add event listener to window resize
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup function to remove event listener
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   const [expanded, setExpanded] = useState(true);
 
   return (
     <aside className="h-screen">
       <nav className="h-full flex flex-col bg-white border-r shadow-sm">
-        <div className="p-4 pb-2 flex justify-between items-center">
+        <div className="p-4 pb-2 flex justify-between items-center max-sm:hidden">
           <p
             className={`overflow-hidden transition-all text-[30px] whitespace-nowrap ${
-              expanded ? "w-36" : "w-0"
+              expanded ? "w-36" : "w-auto"
             }`}
           >
             Clean Bin

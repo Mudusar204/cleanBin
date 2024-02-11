@@ -1,18 +1,38 @@
-import React from 'react'
+import React from "react";
 
-const CleaningCard = ({ title, description,date }) => {
-    return (
-      <div className=" rounded overflow-hidden shadow-lg w-[500px] h-[200px]">
-       
-        <div className="px-6 py-4 flex flex-col gap-3">
-          <div className="font-bold text-xl mb-2 text-center">{title}</div>
-          <div className='flex justify-between'><p>Pick Up:</p> <p>{date}</p></div>
-          <div className='flex justify-between'><p>Time:</p> <p>9:PM</p></div>
-          <div className='flex justify-between'><p>Address:</p> <p>Madina town faisalabad</p></div>
-          <div className='flex justify-between text-base'><p>Note:</p> <p>{description}</p></div>
+// @ts-ignore
+const CleaningCard = ({ item ,w}) => {
+  return (
+    <div className={` rounded overflow-hidden shadow-lg w-[${w}] max-lg:w-[100%] `}>
+      <div className="px-6 py-4 flex flex-col gap-3">
+        {item.title && (
+          <p className="text-center font-semibold text-[22px]">{item.title}</p>
+        )}
+        {item.name && (
+          <div className="flex justify-between">
+            <p>Name:</p> <p>{item.name}</p>
+          </div>
+        )}
+        {item.email && (
+          <div className="flex justify-between">
+            <p>Email:</p> <p>{item.email}</p>
+          </div>
+        )}
+        <div className="flex justify-between">
+          <p>Pick Up:</p> <p>{item.date}</p>
+        </div>
+        <div className="flex justify-between">
+          <p>Time:</p> <p>{item.time}</p>
+        </div>
+        <div className="flex justify-between">
+          <p>Address:</p> <p>{item.address}</p>
+        </div>
+        <div className="flex justify-between text-base">
+          <p>Note:</p> <p>{item.note}</p>
         </div>
       </div>
-    );
-  };
+    </div>
+  );
+};
 
-export default CleaningCard
+export default CleaningCard;
