@@ -22,7 +22,8 @@
     "react": "^18",
     "react-calendar": "^4.8.0",
     "react-dom": "^18",
-    "react-hot-toast": "^2.4.1"
+    "react-hot-toast": "^2.4.1",
+    "react-loader-spinner": "^6.1.6"
   },
   "devDependencies": {
     "@headlessui/react": "^1.7.18",

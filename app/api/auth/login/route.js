@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 import { NextResponse } from "next/server";
 import dbConnect from "../../../../server/utils/dbConnect";
 
-
+// @ts-ignore
 export const POST = async (request) => {
   try {
     await dbConnect();
@@ -21,7 +21,6 @@ export const POST = async (request) => {
       return NextResponse.json({ error: "Invalid credentials" });
     }
     console.log(passwordMatch, "pasword ");
-
     // Passwords match, login successful
     return NextResponse.json({ message: "success", data: user });
   } catch (error) {
