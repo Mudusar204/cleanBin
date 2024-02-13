@@ -8,12 +8,16 @@ import {
 } from "@heroicons/react/24/solid";
 
 import { useContext, createContext, useState ,useEffect} from "react";
+import { useDispatch ,useSelector} from "react-redux";
 
 // @ts-ignore
 const SidebarContext = createContext();
 
 // @ts-ignore
 export default function Sidebar({ children }) {
+// @ts-ignore
+const userDetail=useSelector((state)=>state.userSlice.user)
+console.log(userDetail,"user detail");
   useEffect(() => {
     const handleResize = () => {
       setExpanded(window.innerWidth >= 640);
@@ -66,8 +70,8 @@ export default function Sidebar({ children }) {
           `}
           >
             <div className="leading-4">
-              <h4 className="font-semibold">test</h4>
-              <span className="text-xs text-gray-600">malik@gmail.com</span>
+              <h4 className="font-semibold">{userDetail?.data?.username}</h4>
+              <span className="text-xs text-gray-600">{userDetail?.data?.email}</span>
             </div>
             <UserCircleIcon className="h-8 w-8 " />
           </div>

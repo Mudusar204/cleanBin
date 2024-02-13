@@ -3,7 +3,44 @@ import Image from "next/image";
 import Navbar from "../components/Navbar/Navbar";
 import ServiceCard from "../components/ServiceCard/ServiceCard";
 import PriceCard from "../components/PriceCard/PriceCard";
+import { useSelector ,useDispatch} from "react-redux";
+import { useEffect } from "react";
+import { usePathname } from "next/navigation";
+import { setUserLogin } from "@/store/userSlice";
 export default function Home() {
+  const dispatch=useDispatch()
+  const pathname = usePathname();
+
+  //   useEffect(() => {
+  //   if (typeof window !== "undefined") {
+  //     if (pathname !== "/") {
+  //       if (!localStorage.getItem("token")) {
+  //         window.location.href = "/";
+  //       }
+  //     }
+  //     if (pathname === "/") {
+  //       if (localStorage.getItem("token")) {
+  //       dispatch(setUserLogin(true));
+
+  //         window.location.href = "/";
+  //       }
+  //     }
+  //   }
+  // }, []);
+
+  useEffect(()=>{
+   let id= localStorage.getItem("userId")
+   console.log(id,"from local storage");
+   
+    if (localStorage.getItem("userId")) {
+            dispatch(setUserLogin(true));
+    
+              // window.location.href = "/";
+            }
+  },[])
+  
+const {userDetail,isUserLogin}=useSelector((store)=>store.userSlice)
+
   let services = [
     {
       bg: "#E1EDF9",
@@ -45,10 +82,10 @@ export default function Home() {
   let priceCard = [
     {
       bg: "#DCEEFC",
-      heading: "WASH & FOLD SERVICE",
+      heading: "Quick Cleaning",
       img: "/priceCard1.png",
       shirt: 2,
-      suitJacket: 3,
+      price: 50,
       suitPent: 3,
       skirtDress: 5,
       pants: 1,
@@ -57,10 +94,10 @@ export default function Home() {
     {
       bg: "",
 
-      heading: "DRY-CLEANING SERVICE",
+      heading: "Monthly Cleaning",
       img: "/priceCard2.png",
       shirt: 2,
-      suitJacket: 3,
+      price: 200,
       suitPent: 3,
       skirtDress: 5,
       pants: 1,
@@ -69,10 +106,10 @@ export default function Home() {
     {
       bg: "#DCEEFC",
 
-      heading: "IRONING SERVICE",
+      heading: "Yearly Cleaning",
       img: "/priceCard3.png",
       shirt: 2,
-      suitJacket: 3,
+      price: 500,
       suitPent: 3,
       skirtDress: 5,
       pants: 1,
@@ -155,16 +192,11 @@ export default function Home() {
             you to tell a story and let your users know a little more about you.
           </p>
         </div>
-        <div className="flex justify-center max-2xl:flex-wrap max-2xl:gap-[30px] bg-[#E6F3FF]">
+        <div className="flex justify-center  max-2xl:flex-wrap max-2xl:gap-[30px] bg-[#E6F3FF]">
           {priceCard.map((service, index) => (
             <PriceCard
               heading={service.heading}
-              shirtPrice={service.shirt}
-              suitJacketPrice={service.suitJacket}
-              suitJacketPent={service.suitPent}
-              skirtDressPrice={service.skirtDress}
-              pentPrice={service.pants}
-              blousePrice={service.blouse}
+              price={service.price}
               img={service.img}
               bg={service.bg}
               key={index}

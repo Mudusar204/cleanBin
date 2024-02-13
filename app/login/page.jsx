@@ -5,10 +5,13 @@ import styles from "./style.module.css";
 // import * as THREE from "three";
 import Link from "next/link";
 import { useState } from "react";
+// @ts-ignore
 import dynamic from "next/dynamic";
-import { loginUser } from "../../server/controller/login";
+// @ts-ignore
 import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { login, setUserLogin } from "../../store/userSlice";
+import { useDispatch } from "react-redux";
 
 // const Earth = dynamic(() => import("@/components/Earth/Earth"), {
 //   ssr: false,
@@ -16,21 +19,26 @@ import { useRouter } from "next/navigation";
 // Google Font Montserrat with weight 600 for Latin subset
 
 const Page = () => {
-  const router=useRouter()
+  const dispatch = useDispatch();
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [data, setData] = useState({});
   const [password, setPassword] = useState("");
+  // @ts-ignore
   const [error, setError] = useState(false);
+  // @ts-ignore
   const [message, setMessage] = useState(null);
   const [emailError, setEmailErr] = useState("");
   const [passwordErr, setPasswordErr] = useState("");
 
+  // @ts-ignore
   function isValidEmail(email) {
     // Regular expression for email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   }
 
+  // @ts-ignore
   function isValidPassword(password) {
     if (password.length >= 8) {
       return true;
@@ -66,6 +74,7 @@ const Page = () => {
     }
   };
 
+  // @ts-ignore
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("chala");
@@ -73,22 +82,28 @@ const Page = () => {
     if (err != "error") {
       try {
         toast.loading("User login");
-        let res = await loginUser({ email, password });
+        // @ts-ignore
+        let res = await dispatch(login({ email, password }));
+        dispatch(setUserLogin(true));
+        // let res = await loginUser({ email, password });
         console.log(res, "ress");
-        if (res.message == "success") {
+        // @ts-ignore
+        if (res.payload.message == "success") {
+          // @ts-ignore
           setMessage("User signed up successfully");
           setEmail("");
           setPassword("");
           // nextPage();
           toast.dismiss();
           toast.success("Login success");
-          router.push("/")
+          router.push("/");
         } else {
           throw new Error();
         }
       } catch (error) {
         toast.dismiss();
         toast.error("error while login");
+        // @ts-ignore
         console.log(error.message, "error ayya");
       }
     }

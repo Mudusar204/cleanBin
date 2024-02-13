@@ -4,7 +4,8 @@ import React, { useState, useEffect } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import { Oval } from "react-loader-spinner";
-import {getUser} from "../../server/controller/getUser"
+import {getUserDetails,setUser} from "../../store/userSlice"
+import { useDispatch ,useSelector} from "react-redux";
 // const events = [
 //   { title: 'Meeting', start: new Date() }
 // ]
@@ -28,12 +29,23 @@ import PaymentHistory from "../../components/PaymentHistory/PaymentHistory";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import styles from "./styles.module.css";
+import { useRouter } from "next/navigation";
 const Page = () => {
+
+  const router=useRouter()
+  const dispatch=useDispatch()
   const [value, onChange] = useState(new Date());
   const [activeItem, setActiveItem] = useState(0);
   const [showMenu, setShowMenu] = useState(false);
   const [loading, setLoading] = useState(true);
-const [userDetail,setUserDetail]=useState({})
+
+// @ts-ignore
+const {userDetail,isUserLogin}=useSelector((store)=>store.userSlice)
+// useEffect(()=>{
+// if(!localStorage.getItem("userId")){
+//   router.push("/login")
+// }
+// },[])
   useEffect(() => {
     // Simulate loading delay (replace with actual data fetching logic)
     setTimeout(() => {
@@ -97,14 +109,21 @@ const [userDetail,setUserDetail]=useState({})
   useEffect(() => {
     const getUserDetail = async () => {
       try {
-        let user = await getUser(); 
-        console.log(user, "user fetched");
-        setUserDetail(user.data)
+        // @ts-ignore
+        let user = await dispatch(getUserDetails()); 
+        console.log(user, "user fetched success");
+      dispatch(setUser(user.payload))
       } catch (error) {
         console.error(error, "error fetching user");
       }
     };
-    getUserDetail();
+    if(isUserLogin){
+
+      getUserDetail();
+    }else{
+  router.push("/login")
+
+    }
   }, []);
 
   return (

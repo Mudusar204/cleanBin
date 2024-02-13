@@ -4,9 +4,11 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import styles from "./style.module.css";
-import { signUpUser } from "../../server/controller/signup";
+// @ts-ignore
 import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import {signup,setUserLogin} from "../../store/userSlice"
+import { useDispatch } from "react-redux";
 // Define the page transition settings and variants
 const pageTransition = {
   type: "tween",
@@ -22,6 +24,8 @@ const pageVariants = {
 
 // The main Signup component
 const Page = () => {
+  const dispatch=useDispatch()
+
   const router=useRouter()
   const [username, setUsername] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -31,6 +35,7 @@ const Page = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
+  // @ts-ignore
   const [message, setMessage] = useState(null);
   const [nameErr, setNameErr] = useState("");
   const [emailError, setEmailErr] = useState("");
@@ -41,6 +46,7 @@ const Page = () => {
   const [lastNameErr, setLastNameErr] = useState("");
   const [page, setPage] = useState(1);
 
+  // @ts-ignore
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("chala");
@@ -48,7 +54,8 @@ const Page = () => {
     if (!error) {
       try {
         toast.loading("User creating");
-     let res  = await signUpUser({
+     // @ts-ignore
+     let res  = await dispatch(signup({
           username,
           email,
           password,
@@ -56,9 +63,11 @@ const Page = () => {
           lastName,
           phone,
           address,
-        });
-        if(res.message=="success"){
+        }));
+        // @ts-ignore
+        if(res.payload.message=="success"){
 
+        // @ts-ignore
         setMessage("User signed up successfully");
         setUsername("");
         setEmail("");
@@ -68,6 +77,8 @@ const Page = () => {
         setAddress("");
         setPhone("");
         // nextPage();
+        dispatch(setUserLogin(true));
+
         toast.dismiss();
         toast.success("User created Successfully");
         router.push("/")
@@ -75,6 +86,7 @@ const Page = () => {
       }
 else{throw new Error}
       } catch (error) {
+        // @ts-ignore
         console.log(error.message, "error ayya");
         toast.dismiss();
         toast.error("some thing went wrong");
@@ -84,12 +96,14 @@ else{throw new Error}
 
   const nextPage = () => setPage((prev) => prev + 1);
 
+  // @ts-ignore
   function isValidEmail(email) {
     // Regular expression for email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   }
 
+  // @ts-ignore
   function isValidPassword(password) {
     if (password.length >= 8) {
       return true;
@@ -437,7 +451,9 @@ else{throw new Error}
 
   return (
     <div className="w-full">
-      <AnimatePresence mode="wait" className="">
+      <AnimatePresence mode="wait" 
+// @ts-ignore
+      className="">
         {/* {renderPage()} */}
         {page == 1 && (
           <motion.div
@@ -589,6 +605,7 @@ else{throw new Error}
                         key={index}
                         className="border p-2 w-[100px] h-[100px] rounded-[10px] text-[30px] text-center"
                         type="text"
+                        // @ts-ignore
                         maxLength="1"
                       />
                     ))}
