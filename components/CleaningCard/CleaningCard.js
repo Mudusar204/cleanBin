@@ -27,6 +27,11 @@ const CleaningCard = ({ item ,w}) => {
         <div className="flex justify-between">
           <p>Address:</p> <p>{item.address}</p>
         </div>
+        {item.status && (
+          <div className="flex justify-between">
+            <p>Status:</p> <p>{item.status}</p>
+          </div>
+        )}
         <div className="flex justify-between text-base">
           <p>Note:</p> <p>{item.note}</p>
         </div>

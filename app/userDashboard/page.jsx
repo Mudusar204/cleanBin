@@ -1,11 +1,12 @@
+// @ts-nocheck
 "use client";
 import React, { useState, useEffect } from "react";
 
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import { Oval } from "react-loader-spinner";
-import {getUserDetails,setUser} from "../../store/userSlice"
-import { useDispatch ,useSelector} from "react-redux";
+import { getUserDetails, setUser, setUserLogin } from "../../store/userSlice";
+import { useDispatch, useSelector } from "react-redux";
 // const events = [
 //   { title: 'Meeting', start: new Date() }
 // ]
@@ -30,22 +31,61 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import styles from "./styles.module.css";
 import { useRouter } from "next/navigation";
-const Page = () => {
 
-  const router=useRouter()
-  const dispatch=useDispatch()
+const Page = () => {
+  const router = useRouter();
+  const dispatch = useDispatch();
   const [value, onChange] = useState(new Date());
   const [activeItem, setActiveItem] = useState(0);
   const [showMenu, setShowMenu] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [tomorrowCleaningState, setTomorrowCleaning] = useState({});
+  const [previousCleaningState, setPreviousCleaning] = useState({});
+  const [cleaningHistoryState, setCleaningHistory] = useState([]);
+  const { userDetail, isUserLogin } = useSelector((store) => store.userSlice);
 
-// @ts-ignore
-const {userDetail,isUserLogin}=useSelector((store)=>store.userSlice)
-// useEffect(()=>{
-// if(!localStorage.getItem("userId")){
-//   router.push("/login")
-// }
-// },[])
+  useEffect(() => {
+    if (!localStorage.getItem("userId")) {
+      router.push("/login");
+    } else {
+      dispatch(setUserLogin(true));
+    }
+  }, []);
+  useEffect(() => {
+    const getUserDetail = async () => {
+      try {
+        // @ts-ignore
+        let user = await dispatch(getUserDetails());
+        console.log(user, "user fetched success");
+        const tomorrowCleaning = getTomorrowDateObject(
+          user?.payload?.data?.cleanings
+        );
+        const previousCleaning = getPreviousDateObject(
+          user?.payload?.data?.cleanings
+        );
+        const cleaningHistory = getCleaningsBeforeCurrentDate(
+          user?.payload?.data?.cleanings
+        );
+        dispatch(setUser(user.payload));
+        setTomorrowCleaning(tomorrowCleaning);
+        setPreviousCleaning(previousCleaning);
+        setCleaningHistory(cleaningHistory);
+        console.log(
+          tomorrowCleaningState,
+          previousCleaning,
+          "cleainign========"
+        );
+      } catch (error) {
+        console.error(error, "error fetching user");
+      }
+    };
+    if (isUserLogin) {
+      getUserDetail();
+    }
+  }, [isUserLogin]);
+  // @ts-ignore
+  console.log(userDetail, "detail of user");
+
   useEffect(() => {
     // Simulate loading delay (replace with actual data fetching logic)
     setTimeout(() => {
@@ -105,26 +145,41 @@ const {userDetail,isUserLogin}=useSelector((store)=>store.userSlice)
     title: "Previous Cleaning",
   };
 
+  function getTomorrowDateObject(cleanings) {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
 
-  useEffect(() => {
-    const getUserDetail = async () => {
-      try {
-        // @ts-ignore
-        let user = await dispatch(getUserDetails()); 
-        console.log(user, "user fetched success");
-      dispatch(setUser(user.payload))
-      } catch (error) {
-        console.error(error, "error fetching user");
-      }
-    };
-    if(isUserLogin){
+    return cleanings.find((cleaning) => {
+      const cleaningDate = new Date(cleaning.date);
+      return (
+        cleaningDate.getDate() === tomorrow.getDate() &&
+        cleaningDate.getMonth() === tomorrow.getMonth() &&
+        cleaningDate.getFullYear() === tomorrow.getFullYear()
+      );
+    });
+  }
 
-      getUserDetail();
-    }else{
-  router.push("/login")
+  function getPreviousDateObject(cleanings) {
+    const previousDate = new Date();
+    previousDate.setDate(previousDate.getDate() - 1);
 
-    }
-  }, []);
+    return cleanings.find((cleaning) => {
+      const cleaningDate = new Date(cleaning.date);
+      return (
+        cleaningDate.getDate() === previousDate.getDate() &&
+        cleaningDate.getMonth() === previousDate.getMonth() &&
+        cleaningDate.getFullYear() === previousDate.getFullYear()
+      );
+    });
+  }
+
+  function getCleaningsBeforeCurrentDate(cleanings) {
+    const currentDate = new Date();
+    return cleanings.filter((cleaning) => {
+      const cleaningDate = new Date(cleaning.date);
+      return cleaningDate < currentDate;
+    });
+  }
 
   return (
     <div className="flex justify-between items-start">
@@ -158,25 +213,29 @@ const {userDetail,isUserLogin}=useSelector((store)=>store.userSlice)
         <div className="w-full mx-[50px] max-sm:mx-0 h-screen overflow-scroll">
           <p className="text-center text-[40px] mt-10">Dashboard</p>
           <div className="flex justify-between flex-wrap mt-[30px]">
-            <CleaningCard item={item} w={"50%"} />
-            <CleaningCard item={item1} w={"50%"} />
+            <CleaningCard
+              item={{ ...tomorrowCleaningState, title: "Next Cleaning" }}
+              w={"50%"}
+            />
+            <CleaningCard
+              item={{ ...previousCleaningState, title: "Previous Cleaning" }}
+              w={"50%"}
+            />
           </div>
           <div className="w-full justify-center   items-center mt-10 h-[300px]">
             {loading ? (
               <div className="w-full justify-start ml-[45%] items-center h-full">
-
-              <Oval
-                visible={true}
-                height="80"
-                width="80"
-                color="lightblue"
-                ariaLabel="oval-loading"
-                wrapperStyle={{ color: "red" }}
-                secondaryColor="blue"
-                wrapperClass=""
-              />
+                <Oval
+                  visible={true}
+                  height="80"
+                  width="80"
+                  color="lightblue"
+                  ariaLabel="oval-loading"
+                  wrapperStyle={{ color: "red" }}
+                  secondaryColor="blue"
+                  wrapperClass=""
+                />
               </div>
-
             ) : (
               <FullCalendar
                 plugins={[dayGridPlugin]}
@@ -196,30 +255,19 @@ const {userDetail,isUserLogin}=useSelector((store)=>store.userSlice)
         <div className="w-full mx-[50px] max-sm:mx-0 h-screen overflow-scroll">
           <p className="text-center text-[40px] mt-10">Cleaning History</p>
           <div className="flex flex-col gap-5 mt-[30px] ">
-            <HistoryCard
-              title="Next Cleaning"
-              date="10/10/2024"
-              description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-              index={1}
-            />
-            <HistoryCard
-              title="Previous Cleaning"
-              date="11/10/2024"
-              description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-              index={2}
-            />
-            <HistoryCard
-              title="Previous Cleaning"
-              date="11/10/2024"
-              description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-              index={2}
-            />
-            <HistoryCard
-              title="Previous Cleaning"
-              date="11/10/2024"
-              description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-              index={2}
-            />
+            {cleaningHistoryState.map((item, i) => {
+              return (
+                <HistoryCard
+                  title="Next Cleaning"
+                  time={item.time}
+                  date={item.date}
+                  note={item.note}
+                  address={item.address}
+                  status={item.status}
+                  index={1}
+                />
+              );
+            })}
           </div>
         </div>
       )}

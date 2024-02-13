@@ -50,6 +50,21 @@ export const login = createAsyncThunk("userSlice/login", async (userData) => {
   }
 });
 
+
+export const addCleanings = createAsyncThunk("userSlice/addCleanings", async (plan) => {
+  try {
+    let id=localStorage.getItem("userId")
+    console.log("function chala cleaing add wala ");
+    const response = await axios.post("/api/user/addCleanings", {plan: plan,userId:id});
+    console.log(response.data, "response ");
+
+    return response.data;
+  } catch (error) {
+    // @ts-ignore
+    throw new Error(error.response.data.error || "Something went wrong");
+  }
+});
+
 const userSlice = createSlice({
   name: "userSlice",
   initialState: {

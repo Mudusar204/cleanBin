@@ -8,8 +8,10 @@ import {
   ChevronRightIcon,
   CurrencyDollarIcon,
 } from "@heroicons/react/24/solid";
-
+import { addCleanings } from "@/store/userSlice";
+import { useDispatch,useSelector } from "react-redux";
 function Page() {
+  const dispatch=useDispatch()
   const router=useRouter()
   const [modal, setModal] = useState(false);
 const [plan,setPlan]=useState("")
@@ -18,6 +20,18 @@ useEffect(()=>{
     router.push("/login")
   }
   },[])
+
+  const addCleaningFun=async()=>{
+    try {
+      // @ts-ignore
+      let res=await dispatch(addCleanings(plan))
+      router.push("/userDashboard")
+      console.log(res,"cleaning added");
+
+    } catch (error) {
+      console.log(error,"cleaing adding");
+    }
+  }
   return (
     <div className="bg-[#CFE6FA] flex flex-col justify-center h-screen items-center">
       <p className="text-center text-[40px] font-semibold mb-10">
@@ -76,7 +90,7 @@ useEffect(()=>{
         />
       </div>
       <div className="w-[50%] mt-5 flex ">
-        <button onClick={()=>{router.push("/userDashboard")}} disabled={plan===""? true:false} className={` font-poppins bg-blue-500 px-8 py-2 rounded-lg text-white text-[20px] font-semibold text-center whitespace-nowrap`}>
+        <button onClick={()=>{addCleaningFun()}} disabled={plan===""? true:false} className={` font-poppins bg-blue-500 px-8 py-2 rounded-lg text-white text-[20px] font-semibold text-center whitespace-nowrap`}>
           Confirm Order
         </button>
       </div>
