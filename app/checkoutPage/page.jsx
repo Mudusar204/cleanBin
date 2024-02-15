@@ -1,3 +1,4 @@
+// @ts-nocheck
 "use client";
 import React from "react";
 import { useState,useEffect } from "react";
@@ -10,6 +11,7 @@ import {
 } from "@heroicons/react/24/solid";
 import { addCleanings } from "@/store/userSlice";
 import { useDispatch,useSelector } from "react-redux";
+import toast from "react-hot-toast";
 function Page() {
   const dispatch=useDispatch()
   const router=useRouter()
@@ -25,8 +27,15 @@ useEffect(()=>{
     try {
       // @ts-ignore
       let res=await dispatch(addCleanings(plan))
-      router.push("/userDashboard")
-      console.log(res,"cleaning added");
+      console.log(res,"resposnse from the checkout");
+      if(res.payload.message==="success"){
+
+        router.push("/userDashboard")
+        console.log(res,"cleaning added");
+      }else{
+        toast.error(res.payload.message)
+        throw new Error
+      }
 
     } catch (error) {
       console.log(error,"cleaing adding");

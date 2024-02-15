@@ -31,7 +31,7 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import styles from "./styles.module.css";
 import { useRouter } from "next/navigation";
-
+import moment from 'moment';
 const Page = () => {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -43,6 +43,30 @@ const Page = () => {
   const [previousCleaningState, setPreviousCleaning] = useState({});
   const [cleaningHistoryState, setCleaningHistory] = useState([]);
   const { userDetail, isUserLogin } = useSelector((store) => store.userSlice);
+
+  const [dates,setDates]=useState([])
+  console.log(userDetail, "user detail");
+
+  const getWeekWiseDate = (cleanings) => {
+    let dateArr = [];
+    cleanings.map((cleaning) => {
+      console.log(cleaning.date, cleaning.id);
+      if (cleaning.id === 1) {
+        dateArr.push(cleaning.date);
+      } else if (cleaning.id === 7) {
+        dateArr.push(cleaning.date);
+      } else if (cleaning.id === 14) {
+        dateArr.push(cleaning.date);
+      } else if (cleaning.id === 21) {
+        dateArr.push(cleaning.date);
+      } else if (cleaning.id === 28) {
+        dateArr.push(cleaning.date);
+      }
+    });
+    const formattedDates = dateArr.map(date => moment(date, 'M/D/YYYY').format('YYYY-MM-DD'));
+    setDates(formattedDates)
+    console.log(dateArr,"date geted form array",formattedDates);
+  };
 
   useEffect(() => {
     if (!localStorage.getItem("userId")) {
@@ -56,7 +80,9 @@ const Page = () => {
       try {
         // @ts-ignore
         let user = await dispatch(getUserDetails());
-        console.log(user, "user fetched success");
+
+        let weekDate = getWeekWiseDate(user?.payload?.data?.cleanings);
+
         const tomorrowCleaning = getTomorrowDateObject(
           user?.payload?.data?.cleanings
         );
@@ -70,11 +96,6 @@ const Page = () => {
         setTomorrowCleaning(tomorrowCleaning);
         setPreviousCleaning(previousCleaning);
         setCleaningHistory(cleaningHistory);
-        console.log(
-          tomorrowCleaningState,
-          previousCleaning,
-          "cleainign========"
-        );
       } catch (error) {
         console.error(error, "error fetching user");
       }
@@ -84,7 +105,6 @@ const Page = () => {
     }
   }, [isUserLogin]);
   // @ts-ignore
-  console.log(userDetail, "detail of user");
 
   useEffect(() => {
     // Simulate loading delay (replace with actual data fetching logic)
@@ -177,6 +197,7 @@ const Page = () => {
     const currentDate = new Date();
     return cleanings.filter((cleaning) => {
       const cleaningDate = new Date(cleaning.date);
+
       return cleaningDate < currentDate;
     });
   }
@@ -222,7 +243,7 @@ const Page = () => {
               w={"50%"}
             />
           </div>
-          <div className="w-full justify-center   items-center mt-10 h-[300px]">
+          <div className="w-full justify-center   items-center mt-10 ">
             {loading ? (
               <div className="w-full justify-start ml-[45%] items-center h-full">
                 <Oval
@@ -242,11 +263,41 @@ const Page = () => {
                 initialView="dayGridMonth"
                 weekends={true}
                 events={[
-                  { title: "event 1", date: "2024-14-02" },
-                  { title: "event 2", date: "2024-04-02" },
+                  {
+                    title: "week 1 cleanings",
+                    start: dates[0],
+                    end: dates[1],
+                    backgroundColor:"green"
+                  },
+                  {
+                    title: "week 2 cleanings",
+                    start: dates[1],
+                    end: dates[2],
+                    backgroundColor:"orange"
+
+                  },
+                  {
+                    title: "week 3 cleanings",
+                    start: dates[2],
+                    end: dates[3],
+                    backgroundColor:"red"
+
+                  },
+                  {
+                    title: "week 4 cleanings",
+                    start: dates[3],
+                    end: dates[4],
+                    backgroundColor:"gray"
+
+                  },
                 ]}
               />
             )}
+          </div>
+          <div className="my-5 flex w-full justify-end">
+            <button className="bg-blue-500 rounded-2xl px-[25px] text-white py-[10px]">
+              Skip this week
+            </button>
           </div>
         </div>
       )}

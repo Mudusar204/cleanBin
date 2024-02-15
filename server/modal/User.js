@@ -15,6 +15,10 @@ const userSchema = new mongoose.Schema({
   previousCleaning:{type:Object,default:{}},
   cleanings:{type:Array,default:[]},
   payments:{types:Array,default:[]},
+  plan:{type:String,default:"No"},
+  isBlock:{type:Boolean,default:false},
+  planEndDate: { type: Date, default: null },
+  planStartDate: { type: Date,default: null},
   createdAt:{type:Date,default:Date.now()}
 });
 

@@ -1,8 +1,10 @@
+// @ts-nocheck
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
+import { Oval } from "react-loader-spinner";
 
 // const events = [
 //   { title: 'Meeting', start: new Date() }
@@ -25,34 +27,23 @@ import ClientCard from "../../components/ClientCard/ClientCard";
 import PaymentCard from "../../components/PaymentCard/PaymentCard";
 import PaymentHistory from "../../components/PaymentHistory/PaymentHistory";
 import Calendar from "react-calendar";
+import {
+  getAllUser,
+  deleteUser,
+  blockUnBlockUser,
+  getTodayCleanings,
+  getTomorrowCleanings,
+  
+} from "@/store/adminSlice";
+import { getUserDetails,setUser } from "@/store/userSlice";
+import { useDispatch, useSelector } from "react-redux";
 import "react-calendar/dist/Calendar.css";
+import toast from "react-hot-toast";
 const Page = () => {
-  const [value, onChange] = useState(new Date());
+  const dispatch = useDispatch();
   const [activeItem, setActiveItem] = useState(0);
   const [showMenu, setShowMenu] = useState(false);
-  const [clients, setClients] = useState([
-    {
-      name: "test1",
-      email: "test1@gmail.com",
-      phone: "03210000",
-      address: "chak 204",
-      plan: "daily",
-    },
-    {
-      name: "test",
-      email: "test@gmail.com",
-      phone: "03210000",
-      address: "chak 204",
-      plan: "Monthly",
-    },
-    {
-      name: "test",
-      email: "test@gmail.com",
-      phone: "03210000",
-      address: "chak 204",
-      plan: "Monthly",
-    },
-  ]);
+  const [clients, setClients] = useState([]);
   const [paymentHistory, setPaymentHistory] = useState([
     {
       date: "12/12/1212",
@@ -77,38 +68,79 @@ const Page = () => {
     },
   ]);
 
-  const [todayCleaning, setTodayCleaning] = useState([
-    {
-      name: "test",
-      email: "test@gmail.com",
-      date: "12/10/1010",
-      time: "9 PM",
-      address: "faisalabad punjab",
-      note: "this is not form user",
-    },
-    {
-      name: "test",
-      email: "test@gmail.com",
-      date: "12/10/1010",
-      time: "9 PM",
-      address: "faisalabad punjab",
-      note: "this is not form user",
-    },
-    {
-      name: "test",
-      email: "test@gmail.com",
-      date: "12/10/1010",
-      time: "9 PM",
-      address: "faisalabad punjab",
-      note: "this is not form user",
-    },
-  ]);
+  const [todayCleaning, setTodayCleaning] = useState([]);
+  const [tomorrowCleaning, setTomorrowCleaning] = useState([]);
   const toggleMenu = () => {
     setShowMenu(!showMenu);
   };
   // @ts-ignore
   const handleItemClick = (index) => {
     setActiveItem(index);
+  };
+
+  useEffect(() => {
+    try {
+      const getAllUserFun = async () => {
+        let user = await dispatch(getUserDetails());
+        dispatch(setUser(user.payload));
+
+        let res = await dispatch(getAllUser());
+        let res1 = await dispatch(getTodayCleanings());
+        let res2 = await dispatch(getTomorrowCleanings());
+        console.log(res.payload.data, "all user get from db");
+        setClients(res.payload.data);
+        setTodayCleaning(res1.payload.data);
+        setTomorrowCleaning(res2.payload.data);
+      };
+      getAllUserFun();
+    } catch (error) {
+      console.log(error, "errro while getting user from admin page");
+    }
+  }, []);
+
+  const deleteUserFun = async (id) => {
+    try {
+      toast.loading("deleting...");
+      let res = await dispatch(deleteUser(id));
+      console.log(res, "response in the delete user,");
+      if (res.payload.message === "success") {
+        let filterArr = clients.filter((item, i) => {
+          return item._id != id;
+        });
+        setClients(filterArr);
+      }
+      toast.dismiss();
+      toast.success(`Succes`);
+    } catch (error) {
+      toast.dismiss();
+      toast.error("something went wrong");
+      console.log(error, "error while deleting user");
+    }
+  };
+
+  const blockUnBlockUserFun = async (id) => {
+    try {
+      toast.loading("plz wait");
+      let res = await dispatch(blockUnBlockUser(id));
+      console.log(res, "response in the delete user,");
+      if (res.payload.message === "success") {
+        let filterArr = clients.map((item, i) => {
+          if (item._id === id) {
+            let obj = { ...item, isBlock: !item.isBlock };
+            return obj;
+          } else {
+            return item;
+          }
+        });
+        toast.dismiss();
+        toast.success(`Succes`);
+        setClients(filterArr);
+      }
+    } catch (error) {
+      toast.dismiss();
+      toast.error("something went wrong");
+      console.log(error, "error while deleting user");
+    }
   };
 
   // @ts-ignore
@@ -153,29 +185,44 @@ const Page = () => {
         <div className="w-full mx-[50px] max-sm:mx-0 h-screen overflow-scroll">
           <div>
             <p className="text-center text-[40px] mt-10">Dashboard</p>
-            <div className="flex justify-between w-full max-lg:flex-wrap mt-[30px]">
-              <div className="w-full">
-                <p className="text-center font-bold text-[26px] mb-2">
-                  Today Cleaning
-                </p>
-                <div>
-                  {todayCleaning.map((item, i) => (
-                    <CleaningCard item={item} w={"100%"}/>
-                  ))}
+            {todayCleaning.length > 0 ? (
+              <div className="flex justify-between w-full max-lg:flex-wrap mt-[30px]">
+                <div className="w-full">
+                  <p className="text-center font-bold text-[26px] mb-2">
+                    Today Cleaning
+                  </p>
+                  <div>
+                    {todayCleaning.map((item, i) => (
+                      <CleaningCard item={item} w={"100%"} />
+                    ))}
+                  </div>
                 </div>
-              </div>
-              <div className="w-full">
-                <p className="text-center font-bold text-[26px] mb-2">
-                  Tomorrow Cleaning
-                </p>
+                <div className="w-full">
+                  <p className="text-center font-bold text-[26px] mb-2">
+                    Tomorrow Cleaning
+                  </p>
 
-                <div>
-                  {todayCleaning.map((item, i) => (
-                    <CleaningCard item={item} w={"100%"} />
-                  ))}
+                  <div>
+                    {tomorrowCleaning.map((item, i) => (
+                      <CleaningCard item={item} w={"100%"} />
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
+            ) : (
+              <div className="w-full justify-start ml-[45%] items-center h-[300px] mt-[200px]">
+                <Oval
+                  visible={true}
+                  height="80"
+                  width="80"
+                  color="lightblue"
+                  ariaLabel="oval-loading"
+                  wrapperStyle={{ color: "red" }}
+                  secondaryColor="blue"
+                  wrapperClass=""
+                />
+              </div>
+            )}
           </div>
 
           {/* <div className="w-full mt-10 h-[300px]">
@@ -198,7 +245,11 @@ const Page = () => {
           <p className="text-center text-[40px] mt-10">Clients</p>
           <div className="flex flex-col gap-5 mt-[30px] ">
             {clients.map((client, i) => (
-              <ClientCard client={client} />
+              <ClientCard
+                client={client}
+                deleteUserFun={deleteUserFun}
+                blockUnBlockUserFun={blockUnBlockUserFun}
+              />
             ))}
           </div>
         </div>
