@@ -50,20 +50,44 @@ export const login = createAsyncThunk("userSlice/login", async (userData) => {
   }
 });
 
+export const addCleanings = createAsyncThunk(
+  "userSlice/addCleanings",
+  async (plan) => {
+    try {
+      let id = localStorage.getItem("userId");
+      console.log("function chala cleaing add wala ");
+      const response = await axios.post("/api/user/addCleanings", {
+        plan: plan,
+        userId: id,
+      });
+      console.log(response.data, "response ");
 
-export const addCleanings = createAsyncThunk("userSlice/addCleanings", async (plan) => {
-  try {
-    let id=localStorage.getItem("userId")
-    console.log("function chala cleaing add wala ");
-    const response = await axios.post("/api/user/addCleanings", {plan: plan,userId:id});
-    console.log(response.data, "response ");
-
-    return response.data;
-  } catch (error) {
-    // @ts-ignore
-    throw new Error(error.response.data.error || "Something went wrong");
+      return response.data;
+    } catch (error) {
+      // @ts-ignore
+      throw new Error(error.response.data.error || "Something went wrong");
+    }
   }
-});
+);
+
+export const skipThisWeek = createAsyncThunk(
+  "userSlice/skipThisWeek",
+  async (weekDates) => {
+    try {
+      let id = localStorage.getItem("userId");
+      const response = await axios.post("/api/user/skipThisWeek", {
+        weekDates: weekDates,
+        userId: id,
+      });
+      console.log(response.data, "response ");
+
+      return response.data;
+    } catch (error) {
+      // @ts-ignore
+      throw new Error(error.response.data.error || "Something went wrong");
+    }
+  }
+);
 
 const userSlice = createSlice({
   name: "userSlice",
@@ -85,6 +109,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { setUser, deleteUser,setUserLogin } = userSlice.actions;
+export const { setUser, deleteUser, setUserLogin } = userSlice.actions;
 
 export default userSlice.reducer;

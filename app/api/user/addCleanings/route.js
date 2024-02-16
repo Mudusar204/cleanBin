@@ -40,17 +40,18 @@ export const POST = async (request) => {
         plan: plan,
       });
     } else if (plan === "monthly") {
-      for (let i = 0; i < 30; i++) {
+      for (let i = 0; i < 31; i++) {
         const futureDate = new Date();
         futureDate.setDate(currentDate.getDate() + i);
         newCleanings.push({
           date: futureDate.toLocaleDateString(),
           status: "pending",
-          id: i,
+          id: i+1,
           time: "9 PM",
           address: "faisalabad punjab",
           note: "this is not from user",
           plan: plan,
+          skip:false
         });
       }
     }

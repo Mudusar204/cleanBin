@@ -10,7 +10,7 @@ const CleaningCard = ({ item ,w}) => {
         )}
         {item.name && (
           <div className="flex justify-between">
-            <p>Name:</p> <p>{item.name}</p>
+            <p>Name:</p> <p>{item.name || "--"}</p>
           </div>
         )}
         {item.email && (
@@ -19,21 +19,21 @@ const CleaningCard = ({ item ,w}) => {
           </div>
         )}
         <div className="flex justify-between">
-          <p>Pick Up:</p> <p>{item.date}</p>
+          <p>Pick Up:</p> <p>{item.date || "--"}</p>
         </div>
         <div className="flex justify-between">
-          <p>Time:</p> <p>{item.time}</p>
+          <p>Time:</p> <p>{item.time || "--"}</p>
         </div>
         <div className="flex justify-between">
-          <p>Address:</p> <p>{item.address}</p>
+          <p>Address:</p> <p>{item.address || "--"}</p>
         </div>
         {item.status && (
           <div className="flex justify-between">
-            <p>Status:</p> <p>{item.status}</p>
+            <p>Status:</p> <p>{item.status }</p>
           </div>
         )}
         <div className="flex justify-between text-base">
-          <p>Note:</p> <p>{item.note}</p>
+          <p>Note:</p> <p>{item.note || "--"}</p>
         </div>
       </div>
     </div>

@@ -5,7 +5,12 @@ import React, { useState, useEffect } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import { Oval } from "react-loader-spinner";
-import { getUserDetails, setUser, setUserLogin } from "../../store/userSlice";
+import {
+  getUserDetails,
+  setUser,
+  setUserLogin,
+  skipThisWeek,
+} from "../../store/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 // const events = [
 //   { title: 'Meeting', start: new Date() }
@@ -31,7 +36,7 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import styles from "./styles.module.css";
 import { useRouter } from "next/navigation";
-import moment from 'moment';
+import moment from "moment";
 const Page = () => {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -43,29 +48,79 @@ const Page = () => {
   const [previousCleaningState, setPreviousCleaning] = useState({});
   const [cleaningHistoryState, setCleaningHistory] = useState([]);
   const { userDetail, isUserLogin } = useSelector((store) => store.userSlice);
-
-  const [dates,setDates]=useState([])
+  const [skip, setSkip] = useState(false);
+  const [dates, setDates] = useState([]);
   console.log(userDetail, "user detail");
 
   const getWeekWiseDate = (cleanings) => {
     let dateArr = [];
+    let checkForSkip = cleanings.some((cleaning) => {
+      return cleaning.skip === true;
+    });
+    if (checkForSkip) {
+      setSkip(true);
+    }
     cleanings.map((cleaning) => {
       console.log(cleaning.date, cleaning.id);
+
       if (cleaning.id === 1) {
-        dateArr.push(cleaning.date);
-      } else if (cleaning.id === 7) {
-        dateArr.push(cleaning.date);
-      } else if (cleaning.id === 14) {
-        dateArr.push(cleaning.date);
-      } else if (cleaning.id === 21) {
-        dateArr.push(cleaning.date);
-      } else if (cleaning.id === 28) {
-        dateArr.push(cleaning.date);
+        let obj = { date: cleaning.date, skip: cleaning.skip };
+
+        dateArr.push(obj);
+      } else if (cleaning.id === 8) {
+        let obj = { date: cleaning.date, skip: cleaning.skip };
+
+        dateArr.push(obj);
+      } else if (cleaning.id === 15) {
+        let obj = { date: cleaning.date, skip: cleaning.skip };
+
+        dateArr.push(obj);
+      } else if (cleaning.id === 22) {
+        let obj = { date: cleaning.date, skip: cleaning.skip };
+
+        dateArr.push(obj);
+      } else if (cleaning.id === 29) {
+        let obj = { date: cleaning.date, skip: cleaning.skip };
+
+        dateArr.push(obj);
       }
     });
-    const formattedDates = dateArr.map(date => moment(date, 'M/D/YYYY').format('YYYY-MM-DD'));
-    setDates(formattedDates)
-    console.log(dateArr,"date geted form array",formattedDates);
+    const formattedDates = dateArr.map((date) => {
+      return {
+        date: moment(date.date, "M/D/YYYY").format("YYYY-MM-DD"),
+        skip: date.skip,
+      };
+    });
+    setDates(formattedDates);
+    console.log(dateArr, "date geted form array", formattedDates);
+  };
+
+  const skipThisWeekFun = async () => {
+    try {
+      let weekDate = "";
+      let currentDate = new Date();
+      const tomorrowDate = new Date(currentDate);
+      tomorrowDate.setDate(currentDate.getDate() + 1);
+      let skippedArr = dates.map((date) => {
+        let ourDate = new Date(date.date);
+
+        if (tomorrowDate >= ourDate) {
+          weekDate = date.date;
+          return { date: date.date, skip: true };
+        } else {
+          return date;
+        }
+      });
+
+      let res = await dispatch(
+        skipThisWeek(moment(weekDate, "YYYY-MM-DD").format("M/D/YYYY"))
+      );
+      if (res.payload.message == "success") {
+        setSkip(true);
+        setDates(skippedArr);
+        console.log("==============");
+      }
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -262,40 +317,25 @@ const Page = () => {
                 plugins={[dayGridPlugin]}
                 initialView="dayGridMonth"
                 weekends={true}
-                events={[
-                  {
-                    title: "week 1 cleanings",
-                    start: dates[0],
-                    end: dates[1],
-                    backgroundColor:"green"
-                  },
-                  {
-                    title: "week 2 cleanings",
-                    start: dates[1],
-                    end: dates[2],
-                    backgroundColor:"orange"
-
-                  },
-                  {
-                    title: "week 3 cleanings",
-                    start: dates[2],
-                    end: dates[3],
-                    backgroundColor:"red"
-
-                  },
-                  {
-                    title: "week 4 cleanings",
-                    start: dates[3],
-                    end: dates[4],
-                    backgroundColor:"gray"
-
-                  },
-                ]}
+                events={dates.map((date, index) => ({
+                  title: date.skip
+                    ? " This Week was Skipped"
+                    : "Weekly Cleanings",
+                  start: date.date,
+                  end: index < dates.length - 1 ? dates[index + 1].date : null,
+                  backgroundColor: date.skip ? "red" : "green",
+                }))}
               />
             )}
           </div>
           <div className="my-5 flex w-full justify-end">
-            <button className="bg-blue-500 rounded-2xl px-[25px] text-white py-[10px]">
+            <button
+              disabled={skip ? true : false}
+              onClick={() => {
+                skipThisWeekFun();
+              }}
+              className="bg-blue-500 rounded-2xl px-[25px] text-white py-[10px]"
+            >
               Skip this week
             </button>
           </div>
