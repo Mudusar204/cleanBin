@@ -71,14 +71,14 @@ useEffect(()=>{
             className="border border-blue-400 rounded-xl"
           />
           <div className="flex justify-center items-center self-stretch gap-[10px]">
-            <button
-              onClick={() => setModal(true)}
+            <a href="https://buy.stripe.com/test_5kAcPMans1VZ1MYdQQ"
+              // onClick={() => setModal(true)}
               className="flex justify-center items-center py-[4px] px-[8px] gap-[4px] border-1 border-[#4989E6] rounded-[4px] bg-[#589CFF] shadow-[rgba(0, 0, 0, 0.10)]"
             >
               <p className="font-poppins text-white text-[14px] font-semibold text-center whitespace-nowrap">
                 Add card
               </p>
-            </button>
+            </a>
             <button className="flex justify-center items-center py-[4px] px-[8px] gap-[4px] border-1 border-[#4989E6] rounded-[4px] bg-[#589CFF] shadow-[rgba(0, 0, 0, 0.10)]">
               <p className="font-poppins text-white text-[14px] font-semibold text-center whitespace-nowrap">
                 Remove card

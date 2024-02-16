@@ -28,7 +28,8 @@
     "react-dom": "^18",
     "react-hot-toast": "^2.4.1",
     "react-loader-spinner": "^6.1.6",
-    "react-redux": "^9.1.0"
+    "react-redux": "^9.1.0",
+    "stripe": "^14.17.0"
   },
   "devDependencies": {
     "@headlessui/react": "^1.7.18",

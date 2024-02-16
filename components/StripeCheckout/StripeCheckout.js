@@ -1,3 +1,4 @@
+// @ts-nocheck
 // components/StripeCheckout.js
 // import { ApiUrls } from "@/apis/ApiUrls";
 // import { http } from "@/config/http";
@@ -12,7 +13,7 @@ import {
 import { loadStripe } from "@stripe/stripe-js";
 
 const stripePromise = loadStripe(
-  "pk_test_51OWwAoAJ2A9hnGz2dUZ1SXyQ4TLkZMIdJQdB4REvLLZ2ALAZaEagBcXy2fMaH0N1uWTzAl13nyfRQQSGqwiAZfq4001H1CHv2u"
+  "pk_test_51OkYYqJGy3aGGBUOsF2Riv3bxAI4yyufUOG0Tt1n2apNGlUDmdoywyGpsBZdSds0qX3ox3RXIiVrWwQ4sqJtRoYn00HAS5ewJW"
 );
 
 const StripeCheckoutForm = (props) => {
@@ -25,7 +26,8 @@ const StripeCheckoutForm = (props) => {
 
     const stripe = await stripePromise;
     const { error, paymentMethod } = await stripe.createPaymentMethod({
-      type: "card",
+      mode: "payment",
+      
       card: elements.getElement(CardElement),
       // billing_details: {
       //     // Billing details of the customer
