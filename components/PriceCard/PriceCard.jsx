@@ -10,7 +10,7 @@ const PriceCard = (props) => {
       <img className="mt-[-10px]" height={100} width={100} src={props.img} alt="" />
         <p className="text-[24px] font-extrabold">{props?.heading}</p>
       </div>
-      <div className="flex items-center"><span className="text-[20px] font-medium">$</span> <p className="text-[30px] font-bold">{props.price}</p></div>
+      <div className="flex items-center"><span className="text-[20px] font-medium"></span> <p className="text-[30px] font-bold">{props.price}</p></div>
       <div className="w-full justify-center px-[50px]"> 
         <div className="flex justify-between w-full text-[20px] font-thin mb-[10px]"> <p>Red Dustbin |</p> <p><CheckBadgeIcon className="h-10 w-10 text-green-500"/></p></div>
         <div className="flex justify-between w-full text-[20px] font-thin mb-[10px]"> <p>Blue Dustbin |</p> <p><CheckBadgeIcon className="h-10 w-10 text-green-500"/></p></div>

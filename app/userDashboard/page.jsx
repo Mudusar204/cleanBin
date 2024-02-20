@@ -6,6 +6,7 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import { Oval } from "react-loader-spinner";
 import {
+  getPayments,
   getUserDetails,
   setUser,
   setUserLogin,
@@ -37,6 +38,7 @@ import "react-calendar/dist/Calendar.css";
 import styles from "./styles.module.css";
 import { useRouter } from "next/navigation";
 import moment from "moment";
+import axios from "axios";
 const Page = () => {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -151,6 +153,7 @@ const Page = () => {
         setTomorrowCleaning(tomorrowCleaning);
         setPreviousCleaning(previousCleaning);
         setCleaningHistory(cleaningHistory);
+        getPaymentHistory();
       } catch (error) {
         console.error(error, "error fetching user");
       }
@@ -167,26 +170,7 @@ const Page = () => {
       setLoading(false);
     }, 2000);
   }, []);
-  const [paymentHistory, setPaymentHistory] = useState([
-    {
-      date: "12/12/1212",
-      to: "text",
-      amount: "10",
-      recipientNo: "11",
-    },
-    {
-      date: "12/12/1212",
-      to: "text2",
-      amount: "20",
-      recipientNo: "111",
-    },
-    {
-      date: "12/12/1212",
-      to: "text3",
-      amount: "30",
-      recipientNo: "233",
-    },
-  ]);
+  const [paymentHistory, setPaymentHistory] = useState([]);
 
   const toggleMenu = () => {
     setShowMenu(!showMenu);
@@ -256,6 +240,19 @@ const Page = () => {
       return cleaningDate < currentDate;
     });
   }
+
+  const getPaymentHistory = async () => {
+    try {
+      let res = await dispatch(getPayments());
+      console.log(
+        res,
+        "============================payments==================="
+      );
+      setPaymentHistory(res.payload.data.Payments);
+    } catch (error) {
+      console.log(error, "error white geting paymetns");
+    }
+  };
 
   return (
     <div className="flex justify-between items-start">
@@ -376,14 +373,17 @@ const Page = () => {
           <p className="text-center text-[40px] mt-10">Payments History</p>
           <div className="  overflow-hidden border-b-2 border-gray-800 w-full mt-[20px]">
             <div className="px-6 py-4 flex justify-between gap-3">
-              <div className="flex font-bold w-[10%]">
+              <div className="flex font-bold w-[5%]">
                 {" "}
                 <p>To</p>
               </div>
               <div className="flex font-bold w-[10%]">
+                <p>Email:</p>
+              </div>
+              <div className="flex font-bold w-[10%]">
                 <p>Date:</p>
               </div>
-              <div className="flex font-bold w-[10%] whitespace-nowrap">
+              <div className="flex font-bold w-[15%] whitespace-nowrap">
                 <p>Recipient No</p>
               </div>
               <div className="flex font-bold w-[10%]">
@@ -393,9 +393,20 @@ const Page = () => {
             </div>
           </div>
           <div className="flex flex-col gap-5 mt-[30px]">
-            {paymentHistory.map((item, i) => (
-              <PaymentHistory item={item} />
-            ))}
+            {paymentHistory.length > 0 ? (
+              paymentHistory.map((item, i) => <PaymentHistory item={item} />)
+            ) : (
+              <Oval
+                visible={true}
+                height="80"
+                width="80"
+                color="lightblue"
+                ariaLabel="oval-loading"
+                wrapperStyle={{ color: "red" }}
+                secondaryColor="blue"
+                wrapperClass=""
+              />
+            )}
           </div>
         </div>
       )}

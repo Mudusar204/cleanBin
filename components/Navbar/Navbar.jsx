@@ -32,7 +32,7 @@ const Navbar = () => {
 
   return (
     <div className="bg-[rgb(230,243,255)] px-[100px] max-sm:px-[20px] py-[50px] flex justify-between items-center">
-      <p className="text-[28px] font-thin">○ L A U N D R Y ○ S H O P ○</p>
+      <p className="text-[28px] font-thin">○ C L E A N ○ B I N ○</p>
       <div className="flex max-lg:flex-row-reverse items-center">
         <div className="lg:hidden" onClick={toggleMenu}>
           {isMenuOpen ? (

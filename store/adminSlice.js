@@ -92,6 +92,21 @@ export const getTomorrowCleanings = createAsyncThunk(
   }
 );
 
+export const getAllPayments = createAsyncThunk("userSlice/getAllPayments", async () => {
+  try {
+    const userId=await localStorage.getItem("userId")
+    console.log("function get payments", userId);
+    const response = await axios.post("/api/payments/getAllPayments", {userId:userId});
+    console.log(response, "response ");
+
+    return response;
+  } catch (error) {
+    console.log(error,"===========");
+    // @ts-ignore
+    throw new Error(error.response.data.error || "Something went wrong");
+  }
+});
+
 const adminSlice = createSlice({
   name: "adminSlice",
   initialState: {

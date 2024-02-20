@@ -1,7 +1,5 @@
 // @ts-nocheck
-// components/StripeCheckout.js
-// import { ApiUrls } from "@/apis/ApiUrls";
-// import { http } from "@/config/http";
+
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import {
   CardElement,
@@ -11,50 +9,53 @@ import {
 } from "@stripe/react-stripe-js";
 
 import { loadStripe } from "@stripe/stripe-js";
+import axios from "axios"; // Import Axios
+import toast from "react-hot-toast";
 
 const stripePromise = loadStripe(
-  "pk_test_51OkYYqJGy3aGGBUOsF2Riv3bxAI4yyufUOG0Tt1n2apNGlUDmdoywyGpsBZdSds0qX3ox3RXIiVrWwQ4sqJtRoYn00HAS5ewJW"
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
 );
 
 const StripeCheckoutForm = (props) => {
+  console.log(props,"amount in the props");
   const stripe = useStripe();
   const elements = useElements();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("stipe method called", event);
+    console.log("stripe method called", event);
 
-    const stripe = await stripePromise;
-    const { error, paymentMethod } = await stripe.createPaymentMethod({
-      mode: "payment",
-      
-      card: elements.getElement(CardElement),
-      // billing_details: {
-      //     // Billing details of the customer
-      // },
-    });
-    console.log(error, paymentMethod, "payment method");
     if (!stripe || !elements) {
       return;
     }
 
     try {
-      const token = localStorage.getItem("token");
-      const header = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
-      // const response = await http.post(
-      //   ApiUrls.payments.attachUrl,
-      //   { payment_method_id: paymentMethod.id },
-      //   header
-      // );
-      // console.log(response, "success aaya h payment");
+      const userId = localStorage.getItem("userId");
+      console.log(userId,"user id");
+      // const header = {
+      //   headers: {
+      //     Authorization: `Bearer ${token}`,
+      //   },
+      // };
 
-      // return response;
+      const response = await axios.post(
+        "/api/stripe/sendAmount",
+        { amount: props.amount,userId:userId },
+        {
+          headers: { "Content-Type": "application/json" }, // Set headers
+        }
+      );
+      if (response.data.message == "success") {
+        toast.success("payment sent success");
+        props.setModal(false);
+      } else {
+        toast.error("something went wrong");
+      }
+      // if (response.data.session) {
+      //   stripe.redirectToCheckout({ sessionId: response.data.session.id });
+      // }
     } catch (error) {
-      console.log(error, "error aaya h payment");
+      console.log(error, "payment error");
       throw error;
     } finally {
     }
@@ -68,7 +69,7 @@ const StripeCheckoutForm = (props) => {
           onSubmit={handleSubmit}
         >
           <div className="mb-4">
-            <label className=" flex justify-between w-full marker: text-[24px] font-semibold text-gray-600">
+            <label className="flex justify-between w-full marker:text-[24px] font-semibold text-gray-600">
               <p> Card details</p>
               <XMarkIcon
                 onClick={() => props.setModal(false)}
@@ -93,7 +94,7 @@ const StripeCheckoutForm = (props) => {
 const StripeCheckout = (props) => {
   return (
     <Elements stripe={stripePromise}>
-      <StripeCheckoutForm setModal={props.setModal} />
+      <StripeCheckoutForm amount={props.amount} setModal={props.setModal} />
     </Elements>
   );
 };

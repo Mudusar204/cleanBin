@@ -3,12 +3,12 @@ import Image from "next/image";
 import Navbar from "../components/Navbar/Navbar";
 import ServiceCard from "../components/ServiceCard/ServiceCard";
 import PriceCard from "../components/PriceCard/PriceCard";
-import { useSelector ,useDispatch} from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { setUserLogin } from "@/store/userSlice";
 export default function Home() {
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
   const pathname = usePathname();
 
   //   useEffect(() => {
@@ -28,64 +28,65 @@ export default function Home() {
   //   }
   // }, []);
 
-  useEffect(()=>{
-   let id= localStorage.getItem("userId")
-   console.log(id,"from local storage");
-   
+  useEffect(() => {
+    let id = localStorage.getItem("userId");
+    console.log(id, "from local storage");
+
     if (localStorage.getItem("userId")) {
-            dispatch(setUserLogin(true));
-    
-              // window.location.href = "/";
-            }
-  },[])
-  
-const {userDetail,isUserLogin}=useSelector((store)=>store.userSlice)
+      dispatch(setUserLogin(true));
+
+      // window.location.href = "/";
+    }
+  }, []);
+
+  const { userDetail, isUserLogin } = useSelector((store) => store.userSlice);
 
   let services = [
     {
       bg: "#E1EDF9",
       img: "/serviceImg1.png",
-      heading: "SELF SERVICE",
-      title: "Enjoy our relaxing atmosphere, while your laundry washed",
+      heading: "Bin Cleaning Service",
+      title:
+        "Enjoy our at-home bin cleaning service whether you are home or not.  ",
       description:
-        "I'm a paragraph. Use this area to describe one of your services. You can change the title to the service you provide and use this text area to describe your service. Feel free to change the image.",
+        "Our team comes to your location to clean you bin (compost/recycling/garbage). We empty the bin, rinse it, wash it thoroughly, and then dry it – all you have to do is provide the water connection. ",
     },
     {
       bg: "",
 
       img: "/serviceImg2.png",
-      heading: "DROP-OFF SERVICE",
-      title: "Drop your laundry off in our Shop, and let us do it all for you.",
+      heading: "Car Wash Service ",
+      title: "Your car cleaned at your convenience",
       description:
-        "I'm a paragraph. Use this area to describe one of your services. You can change the title to the service you provide and use this text area to describe your service. Feel free to change the image.",
+        "Our team comes to your location to clean your car (exterior). The service includes rinse, lather with soap and washing off the soap and lastly hand drying the car – all you have to do is provide the water connection. ",
     },
     {
       bg: "#E1EDF9",
 
       img: "/serviceImg3.png",
-      heading: "FULL SERVICE",
-      title: "You Order > We Collect > We Clean > We Deliver",
+      heading: "Multiple Services",
+      title: "Enjoy $5 off of each service if you combine multiple services.",
       description:
-        "I'm a paragraph. Use this area to describe one of your services. You can change the title to the service you provide and use this text area to describe your service. Feel free to change the image.",
+        "If you order both car wash and one bin cleaning or two bin cleaning or any combination thereof, Enjoy 5$ off of each service as a thank you from us.",
     },
     {
       bg: "",
 
       img: "/serviceImg4.png",
-      heading: "COMMERCIAL",
-      title: "Let us do the laundry for your business",
+      heading: "Pressure Wash",
+      title: "Let us do the cleaning for your home and business",
       description:
-        "I'm a paragraph. Use this area to describe one of your services. You can change the title to the service you provide and use this text area to describe your service. Feel free to change the image..",
+        "We provide professional pressure washing services for any surface for both water cleaning soap wash. ",
     },
   ];
 
   let priceCard = [
     {
       bg: "#DCEEFC",
-      heading: "Quick Cleaning",
+      heading: "Bin Clean",
       img: "/priceCard1.png",
       shirt: 2,
-      price: 50,
+      price: "30$ / Bin",
       suitPent: 3,
       skirtDress: 5,
       pants: 1,
@@ -94,10 +95,10 @@ const {userDetail,isUserLogin}=useSelector((store)=>store.userSlice)
     {
       bg: "",
 
-      heading: "Monthly Cleaning",
+      heading: "Car Wash",
       img: "/priceCard2.png",
       shirt: 2,
-      price: 200,
+      price: "30$ / Car",
       suitPent: 3,
       skirtDress: 5,
       pants: 1,
@@ -106,10 +107,10 @@ const {userDetail,isUserLogin}=useSelector((store)=>store.userSlice)
     {
       bg: "#DCEEFC",
 
-      heading: "Yearly Cleaning",
+      heading: "Pressure Washing",
       img: "/priceCard3.png",
       shirt: 2,
-      price: 500,
+      price: "3$ / sq ft",
       suitPent: 3,
       skirtDress: 5,
       pants: 1,
@@ -124,17 +125,9 @@ const {userDetail,isUserLogin}=useSelector((store)=>store.userSlice)
       <div className="bg-white py-[100px] px-[15%] w-[100%] flex justify-center h-auto">
         <div className="relative rounded-[100%] border-[15px] border-black p-[30px] max-lg:h-[650px] max-sm:h-[500px]  h-[800px] w-[800px]">
           <div className="bg-[#CFE6FA]  rounded-[100%] w-full h-full flex flex-col justify-center items-center text-[110px] max-lg:text-[80px] max-md:text-[60px] font-extrabold">
-            <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[10] ">
-              <p>LAUNDRY</p> <p>○ SHOP ○</p>
-              <p className="flex justify-center">
-                <img
-                  height={70}
-                  width={70}
-                  src="/topArrow.png"
-                  className="mt-[40px] rotate-180"
-                  alt=""
-                />
-              </p>
+            <div className="absolute left-1/2  top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[10] ">
+              <p>CLEAN</p> <p>○ BIN ○</p>
+             
             </div>
             <div
               className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[1] h-[600px] max-lg:h-[500px] max-sm:h-[320px] max-lg:w-[500px] max-sm:w-[320px] rounded-[100%] w-[600px]"
@@ -145,6 +138,18 @@ const {userDetail,isUserLogin}=useSelector((store)=>store.userSlice)
               }}
             ></div>
           </div>
+          <div>
+                {" "}
+                <p className="flex justify-center">
+                  <img
+                    height={70}
+                    width={70}
+                    src="/topArrow.png"
+                    className=" rotate-180 mt-[-60px]"
+                    alt=""
+                  />
+                </p>
+              </div>
         </div>
       </div>
 
@@ -159,10 +164,12 @@ const {userDetail,isUserLogin}=useSelector((store)=>store.userSlice)
             ICES
           </p>
           <p className="text-[20px] font-thin mt-[50px]">
-            OUR SERVICES I{`&apos;`}m a paragraph. Click here to add your own text and
-            edit me. It{`&apos;`}s easy. Just click “Edit Text” or double click me to add
-            your own content and make changes to the font. I{`&apos;`}m a great place for
-            you to tell a story and let your users know a little more about you.
+            Clean Bin provides bin washing services to both{" "}
+            <b> residential and commercial garbage,</b> recycling and composting
+            bins. We clean residential municipal collection bins with
+            satisfaction guarantee. All our commercial services are custom
+            quoted, <b> please contact us using the form </b> (hyperlink to the
+            form)
           </p>
         </div>
         {services.map((service, index) => (
@@ -185,12 +192,7 @@ const {userDetail,isUserLogin}=useSelector((store)=>store.userSlice)
               PRICELIST
             </span>
           </p>
-          <p className="text-[20px] font-thin mt-[50px]">
-            OUR SERVICES I{`&apos;`}m a paragraph. Click here to add your own text and
-            edit me. It{`&apos;`}s easy. Just click “Edit Text” or double click me to add
-            your own content and make changes to the font. I{`&apos;`}m a great place for
-            you to tell a story and let your users know a little more about you.
-          </p>
+          <p className="text-[20px] font-thin mt-[50px]">OUR SERVICES:</p>
         </div>
         <div className="flex justify-center  max-2xl:flex-wrap max-2xl:gap-[30px] bg-[#E6F3FF]">
           {priceCard.map((service, index) => (
@@ -208,7 +210,6 @@ const {userDetail,isUserLogin}=useSelector((store)=>store.userSlice)
 
       {/* footer */}
       <div className="bg-[#E1EDF9] pt-5 pb-[50px] flex flex-col justify-center items-center ">
-    
         <p className="text-[24px] font-extrabold text-center mb-[40px] ">
           BACK TO TOP
         </p>

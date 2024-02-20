@@ -33,6 +33,7 @@ import {
   blockUnBlockUser,
   getTodayCleanings,
   getTomorrowCleanings,
+  getAllPayments
   
 } from "@/store/adminSlice";
 import { getUserDetails,setUser } from "@/store/userSlice";
@@ -44,29 +45,7 @@ const Page = () => {
   const [activeItem, setActiveItem] = useState(0);
   const [showMenu, setShowMenu] = useState(false);
   const [clients, setClients] = useState([]);
-  const [paymentHistory, setPaymentHistory] = useState([
-    {
-      date: "12/12/1212",
-      from: "text",
-      amount: "10",
-      status: "received",
-      recipientNo: "11",
-    },
-    {
-      date: "12/12/1212",
-      from: "text2",
-      amount: "20",
-      status: "received",
-      recipientNo: "111",
-    },
-    {
-      date: "12/12/1212",
-      from: "text3",
-      amount: "30",
-      status: "received",
-      recipientNo: "233",
-    },
-  ]);
+  const [paymentHistory, setPaymentHistory] = useState([]);
 
   const [todayCleaning, setTodayCleaning] = useState([]);
   const [tomorrowCleaning, setTomorrowCleaning] = useState([]);
@@ -91,6 +70,7 @@ const Page = () => {
         setClients(res.payload.data);
         setTodayCleaning(res1.payload.data);
         setTomorrowCleaning(res2.payload.data);
+        getAllPaymentHistory()
       };
       getAllUserFun();
     } catch (error) {
@@ -152,6 +132,19 @@ const Page = () => {
       </>
     );
   }
+
+  const getAllPaymentHistory = async () => {
+    try {
+      let res = await dispatch(getAllPayments());
+      console.log(
+        res,
+        "============================payments==================="
+      );
+      setPaymentHistory(res.payload.data.Payments);
+    } catch (error) {
+      console.log(error, "error white geting paymetns");
+    }
+  };
 
   return (
     <div className="flex justify-between items-start">
@@ -265,6 +258,9 @@ const Page = () => {
                 <p>From</p>
               </div>
               <div className="flex font-bold w-[10%]">
+                <p>Email:</p>
+              </div>
+              <div className="flex font-bold w-[10%]">
                 <p>Date:</p>
               </div>
               <div className="flex font-bold w-[10%] whitespace-nowrap">
@@ -273,16 +269,25 @@ const Page = () => {
               <div className="flex font-bold w-[10%]">
                 <p>Amount</p>
               </div>
-              <div className="flex font-bold w-[10%]">
-                <p>Status</p>
-              </div>
+             
               <div className=" font-bold w-[10%]">Print</div>
             </div>
           </div>
           <div className="flex flex-col gap-5 mt-[30px]">
-            {paymentHistory.map((item, i) => (
-              <PaymentHistory item={item} />
-            ))}
+          {paymentHistory.length > 0 ? (
+              paymentHistory.map((item, i) => <PaymentHistory item={item} />)
+            ) : (
+              <Oval
+                visible={true}
+                height="80"
+                width="80"
+                color="lightblue"
+                ariaLabel="oval-loading"
+                wrapperStyle={{ color: "red" }}
+                secondaryColor="blue"
+                wrapperClass=""
+              />
+            )}
           </div>
           <p className="text-center text-[40px] mt-10">Received Payments</p>
           <div className="  overflow-hidden border-b-2 border-gray-800 w-full mt-[20px]">
@@ -292,6 +297,9 @@ const Page = () => {
                 <p>From</p>
               </div>
               <div className="flex font-bold w-[10%]">
+                <p>Email:</p>
+              </div>
+              <div className="flex font-bold w-[10%]">
                 <p>Date:</p>
               </div>
               <div className="flex font-bold w-[10%] whitespace-nowrap">
@@ -300,16 +308,25 @@ const Page = () => {
               <div className="flex font-bold w-[10%]">
                 <p>Amount</p>
               </div>
-              <div className="flex font-bold w-[10%]">
-                <p>Status</p>
-              </div>
+            
               <div className=" font-bold w-[10%]">Print</div>
             </div>
           </div>
           <div className="flex flex-col gap-5 mt-[30px]">
-            {paymentHistory.map((item, i) => (
-              <PaymentHistory item={item} />
-            ))}
+          {paymentHistory.length > 0 ? (
+              paymentHistory.map((item, i) => <PaymentHistory item={item} />)
+            ) : (
+              <Oval
+                visible={true}
+                height="80"
+                width="80"
+                color="lightblue"
+                ariaLabel="oval-loading"
+                wrapperStyle={{ color: "red" }}
+                secondaryColor="blue"
+                wrapperClass=""
+              />
+            )}
           </div>
         </div>
       )}

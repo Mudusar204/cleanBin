@@ -50,6 +50,22 @@ export const login = createAsyncThunk("userSlice/login", async (userData) => {
   }
 });
 
+
+export const getPayments = createAsyncThunk("userSlice/getPayments", async () => {
+  try {
+    const userId=await localStorage.getItem("userId")
+    console.log("function get payments", userId);
+    const response = await axios.post("/api/payments/getUserPayments", {userId:userId});
+    console.log(response, "response ");
+
+    return response;
+  } catch (error) {
+    console.log(error,"===========");
+    // @ts-ignore
+    throw new Error(error.response.data.error || "Something went wrong");
+  }
+});
+
 export const addCleanings = createAsyncThunk(
   "userSlice/addCleanings",
   async (plan) => {

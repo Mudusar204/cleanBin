@@ -16,6 +16,7 @@ function Page() {
   const dispatch=useDispatch()
   const router=useRouter()
   const [modal, setModal] = useState(false);
+  const [amount,setAmount]=useState(0)
 const [plan,setPlan]=useState("")
 useEffect(()=>{
   if(!localStorage.getItem("userId")){
@@ -47,10 +48,10 @@ useEffect(()=>{
         Confirm Your Order
       </p>
       <select name="cleanType" id="" value={plan} onChange={(e)=>setPlan(e.target.value)} className="p-5 mb-2 rounded-2xl w-[50%] ">
-        <option value="">Choose a Plan</option>
-        <option value="quick">Quick</option>
-        <option value="monthly">Monthly</option>
-        <option value="yearly">Yearly</option>
+        <option value="">Choose a Service</option>
+        <option value="binClean">Bin Clean</option>
+        <option value="carWash">Car Wash</option>
+        <option value="pressureWashing">Pressure Washing</option>
       </select>
       <div className="w-[50%] flex justify-between flex-wrap items-start gap-[40px] p-[40px] bg-[#FFFFFF] rounded-[24px]">
         <div className="flex flex-col items-start  gap-[10px]">
@@ -60,7 +61,7 @@ useEffect(()=>{
           <div className="flex items-center justify-center  gap-[12px]">
             <CurrencyDollarIcon className="h-[40px] w-[40px] text-blue-500" />
             <p className="text-[#589CFF] font-poppins text-[64px] font-semibold">
-              {(plan === "quick" && 50) || (plan === "monthly" && 200) ||(plan === "yearly" && 1000) || (plan === "" && 0)}
+              {(plan === "binClean" && 30) || (plan === "carWash" && 30) ||(plan === "pressureWashing" && 3) || (plan === "" && 0)}
             </p>
           </div>
         </div>
@@ -71,14 +72,14 @@ useEffect(()=>{
             className="border border-blue-400 rounded-xl"
           />
           <div className="flex justify-center items-center self-stretch gap-[10px]">
-            <a href="https://buy.stripe.com/test_5kAcPMans1VZ1MYdQQ"
-              // onClick={() => setModal(true)}
+            <button 
+              onClick={() => setModal(true)}
               className="flex justify-center items-center py-[4px] px-[8px] gap-[4px] border-1 border-[#4989E6] rounded-[4px] bg-[#589CFF] shadow-[rgba(0, 0, 0, 0.10)]"
             >
               <p className="font-poppins text-white text-[14px] font-semibold text-center whitespace-nowrap">
                 Add card
               </p>
-            </a>
+            </button>
             <button className="flex justify-center items-center py-[4px] px-[8px] gap-[4px] border-1 border-[#4989E6] rounded-[4px] bg-[#589CFF] shadow-[rgba(0, 0, 0, 0.10)]">
               <p className="font-poppins text-white text-[14px] font-semibold text-center whitespace-nowrap">
                 Remove card
@@ -103,7 +104,8 @@ useEffect(()=>{
           Confirm Order
         </button>
       </div>
-      <div className="">{modal && <StripeCheckout setModal={setModal} />}</div>
+              
+      <div className="">{modal && <StripeCheckout setModal={setModal} amount={(plan === "binClean" && 50) || (plan === "carWash" && 200) ||(plan === "pressureWashing" && 1000) || (plan === "" && 0)}/>  }</div>
     </div>
   );
 }
