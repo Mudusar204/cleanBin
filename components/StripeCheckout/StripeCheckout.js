@@ -10,6 +10,7 @@ import {
 
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios"; // Import Axios
+import React from "react";
 import toast from "react-hot-toast";
 
 const stripePromise = loadStripe(
@@ -17,7 +18,7 @@ const stripePromise = loadStripe(
 );
 
 const StripeCheckoutForm = (props) => {
-  console.log(props,"amount in the props");
+  console.log(props, "amount in the props");
   const stripe = useStripe();
   const elements = useElements();
 
@@ -31,7 +32,7 @@ const StripeCheckoutForm = (props) => {
 
     try {
       const userId = localStorage.getItem("userId");
-      console.log(userId,"user id");
+      console.log(userId, "user id");
       // const header = {
       //   headers: {
       //     Authorization: `Bearer ${token}`,
@@ -40,13 +41,14 @@ const StripeCheckoutForm = (props) => {
 
       const response = await axios.post(
         "/api/stripe/sendAmount",
-        { amount: props.amount,userId:userId },
+        { amount: props.amount, userId: userId },
         {
           headers: { "Content-Type": "application/json" }, // Set headers
         }
       );
       if (response.data.message == "success") {
         toast.success("payment sent success");
+        props.setPaymentSendSuccess(true);
         props.setModal(false);
       } else {
         toast.error("something went wrong");
@@ -73,7 +75,7 @@ const StripeCheckoutForm = (props) => {
               <p> Card details</p>
               <XMarkIcon
                 onClick={() => props.setModal(false)}
-                className="h-[24px] w-[24px] text-black"
+                className="h-[24px] w-[24px] text-black cursor-pointer"
               />
             </label>
             <CardElement className="mt-[20px] p-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300" />
@@ -92,9 +94,10 @@ const StripeCheckoutForm = (props) => {
 };
 
 const StripeCheckout = (props) => {
+
   return (
     <Elements stripe={stripePromise}>
-      <StripeCheckoutForm amount={props.amount} setModal={props.setModal} />
+      <StripeCheckoutForm amount={props.amount} setModal={props.setModal} setPaymentSendSuccess={props.setPaymentSendSuccess} />
     </Elements>
   );
 };

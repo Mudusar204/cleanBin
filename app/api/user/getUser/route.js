@@ -7,7 +7,7 @@ export const POST = async (request) => {
     await dbConnect();
     const data = await request.json();
     console.log(data, "user id");
-    const user = await  User.findById(data.userId)
+    const user = await User.findById(data.userId)
 
     // Passwords match, login successful
     return NextResponse.json({ message: "success", data: user });

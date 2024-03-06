@@ -9,17 +9,17 @@ const userSchema = new mongoose.Schema({
   lastName: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  role:{type:String,default:"user"},
-  cleaningHistory:{type:Array,default:[]},
-  nextCleaning:{type:Object,default:{}},
-  previousCleaning:{type:Object,default:{}},
-  cleanings:{type:Array,default:[]},
-  payments:{types:Array,default:[]},
-  plan:{type:String,default:"No"},
-  isBlock:{type:Boolean,default:false},
+  role: { type: String, default: "user" },
+  cleaningHistory: { type: Array, default: [] },
+  nextCleaning: { type: Object, default: {} },
+  previousCleaning: { type: Object, default: {} },
+  cleanings: { type: Array, default: [] },
+  payments: { type: Boolean, default: false },
+  plan: { type: Array, default: [] },
+  isBlock: { type: Boolean, default: false },
   planEndDate: { type: Date, default: null },
-  planStartDate: { type: Date,default: null},
-  createdAt:{type:Date,default:Date.now()}
+  planStartDate: { type: Date, default: null },
+  createdAt: { type: Date, default: Date.now() }
 });
 
 module.exports = mongoose.models.User || mongoose.model("User", userSchema)
