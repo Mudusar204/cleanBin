@@ -1,11 +1,13 @@
 
 import Stripe from 'stripe';
 
+// @ts-ignore
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: '2020-08-27',
 });
 
-export default async function handler(req, res) {
+// @ts-ignore
+export default async (req, res) => {
   if (req.method === 'POST') {
     try {
       const session = await stripe.checkout.sessions.create({

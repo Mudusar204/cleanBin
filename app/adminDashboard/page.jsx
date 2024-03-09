@@ -186,7 +186,7 @@ const Page = () => {
                   </p>
                   <div>
                     {todayCleaning.map((item, i) => (
-                      <CleaningCard item={item} w={"100%"} />
+                      <CleaningCard item={item} key={i} w={"100%"} />
                     ))}
                   </div>
                 </div>
@@ -197,7 +197,7 @@ const Page = () => {
 
                   <div>
                     {tomorrowCleaning.map((item, i) => (
-                      <CleaningCard item={item} w={"100%"} />
+                      <CleaningCard item={item} key={i} w={"100%"} />
                     ))}
                   </div>
                 </div>
@@ -239,6 +239,7 @@ const Page = () => {
           <div className="flex flex-col gap-5 mt-[30px] ">
             {clients.map((client, i) => (
               <ClientCard
+              key={i}
                 client={client}
                 deleteUserFun={deleteUserFun}
                 blockUnBlockUserFun={blockUnBlockUserFun}
@@ -275,7 +276,7 @@ const Page = () => {
           </div>
           <div className="flex flex-col gap-5 mt-[30px]">
           {paymentHistory.length > 0 ? (
-              paymentHistory.map((item, i) => <PaymentHistory item={item} />)
+              paymentHistory.map((item, i) => <PaymentHistory item={item} key={i} />)
             ) : (
               <Oval
                 visible={true}
@@ -314,7 +315,7 @@ const Page = () => {
           </div>
           <div className="flex flex-col gap-5 mt-[30px]">
           {paymentHistory.length > 0 ? (
-              paymentHistory.map((item, i) => <PaymentHistory item={item} />)
+              paymentHistory.map((item, i) => <PaymentHistory key={i} item={item} />)
             ) : (
               <Oval
                 visible={true}

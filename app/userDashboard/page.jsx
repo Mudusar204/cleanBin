@@ -426,9 +426,10 @@ const Page = () => {
           </div>
           <div className='flex flex-col gap-5 mt-[30px]'>
             {paymentHistory.length > 0 ? (
-              paymentHistory.map((item, i) => <PaymentHistory item={item} />)
+              paymentHistory.map((item, i) => <PaymentHistory key={i} item={item} />)
             ) : (
               <Oval
+              key={i}
                 visible={true}
                 height='80'
                 width='80'
