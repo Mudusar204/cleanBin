@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import toast from "react-hot-toast";
@@ -68,12 +69,15 @@ export const getPayments = createAsyncThunk("userSlice/getPayments", async () =>
 
 export const addCleanings = createAsyncThunk(
   "userSlice/addCleanings",
-  async (plan) => {
+  async (data) => {
     try {
       let id = localStorage.getItem("userId");
       console.log("function chala cleaing add wala ");
       const response = await axios.post("/api/user/addCleanings", {
-        plan: plan,
+        service: data?.service,
+        plan: data?.plan,
+        time:data?.time,
+        note:data?.note,
         userId: id,
       });
       console.log(response.data, "response ");

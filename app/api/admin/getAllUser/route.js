@@ -7,8 +7,9 @@ export const POST = async (request) => {
   try {
     await dbConnect();
     const data = await request.json();
-    console.log(data, "user id");
-    const users = await  User.find()
+    console.log(data, "user id ----------------------");
+    const users = await User.find({ _id: { $ne: data?.userId } });
+    // const users = await  User.find()
 
     // Passwords match, login successful
     return NextResponse.json({ message: "success", data: users });

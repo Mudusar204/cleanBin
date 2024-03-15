@@ -1,3 +1,4 @@
+// @ts-nocheck
 // "use client";
 
 // import Head from "next/head";
@@ -323,6 +324,7 @@ export default function Example() {
                     </label>
                     <div className="mt-2">
                       <input
+                      placeholder="email"
                         id="email"
                         name="email"
                         type="email"
@@ -347,6 +349,7 @@ export default function Example() {
                     </label>
                     <div className="mt-2">
                       <input
+                      placeholder="password"
                         id="password"
                         name="password"
                         type="password"
@@ -378,14 +381,14 @@ export default function Example() {
                       </label>
                     </div>
 
-                    <div className="text-sm leading-6">
+                    {/* <div className="text-sm leading-6">
                       <a
                         href="#"
                         className="font-semibold text-indigo-600 hover:text-indigo-500"
                       >
                         Forgot password?
                       </a>
-                    </div>
+                    </div> */}
                   </div>
 
                   <div>
@@ -396,7 +399,9 @@ export default function Example() {
                       Sign in
                     </button>
                   </div>
+
                 </form>
+                <div className="text-center mt-2">create new account <a className="text-blue-500" href="/signup">Signup</a></div>
               </div>
             </div>
           </div>

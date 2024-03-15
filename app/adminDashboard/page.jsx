@@ -268,8 +268,8 @@ const Page = () => {
 
           {activeItem == 2 && (
             <div className="w-full mx-[50px] max-sm:mx-0 h-screen overflow-scroll">
-              <p className="text-center text-[40px] mt-10">Pending Payments</p>
-              <div className="  overflow-hidden border-b-2 border-gray-800 w-full mt-[20px]">
+              {/* <p className="text-center text-[40px] mt-10">Pending Payments</p> */}
+              {/* <div className="  overflow-hidden border-b-2 border-gray-800 w-full mt-[20px]">
                 <div className="px-6 py-4 flex justify-between gap-3">
                   <div className="flex font-bold w-[10%]">
                     {" "}
@@ -290,8 +290,8 @@ const Page = () => {
 
                   <div className=" font-bold w-[10%]">Print</div>
                 </div>
-              </div>
-              <div className="flex flex-col gap-5 mt-[30px]">
+              </div> */}
+              {/* <div className="flex flex-col gap-5 mt-[30px]">
                 {paymentHistory.length > 0 ? (
                   paymentHistory.map((item, i) => (
                     <PaymentHistory item={item} key={i} />
@@ -308,7 +308,7 @@ const Page = () => {
                     wrapperClass=""
                   />
                 )}
-              </div>
+              </div> */}
               <p className="text-center text-[40px] mt-10">Received Payments</p>
               <div className="  overflow-hidden border-b-2 border-gray-800 w-full mt-[20px]">
                 <div className="px-6 py-4 flex justify-between gap-3">

@@ -940,6 +940,7 @@ export default function SignUp() {
                     </label>
                     <div className="mt-2">
                       <input
+                      placeholder="Enter your username"
                         id="username"
                         name="username"
                         type="text"
@@ -959,6 +960,7 @@ export default function SignUp() {
                     </label>
                     <div className="mt-2">
                       <input
+                      placeholder="Enter your email"
                         id="email"
                         name="email"
                         type="email"
@@ -978,6 +980,7 @@ export default function SignUp() {
                     </label>
                     <div className="mt-2">
                       <input
+                      placeholder="Enter your password"
                         id="password"
                         name="password"
                         type="password"
@@ -997,6 +1000,7 @@ export default function SignUp() {
                     </label>
                     <div className="mt-2">
                       <input
+                      placeholder="123 Main St, Anytown USA"
                         id="address"
                         name="address"
                         type="text"
@@ -1016,6 +1020,7 @@ export default function SignUp() {
                     </label>
                     <div className="mt-2">
                       <input
+                      placeholder="0321......"
                         id="phone"
                         name="phone"
                         type="tel"
@@ -1038,6 +1043,9 @@ export default function SignUp() {
                     </button>
                   </div>
                 </form>
+                <div className="text-center mt-2">already have account? <a className="text-blue-500" href="/login">Login</a></div>
+
+               
               </div>
             </div>
           </div>

@@ -21,7 +21,7 @@ const ClientCard = ({ client ,deleteUserFun,blockUnBlockUserFun}) => {
           <p className="font-semibold">Address:</p> <p>{client.address}</p>
         </div>
         <div className="flex justify-between">
-          <p className="font-semibold">Plan:</p> <p>{client.plan}</p>
+          <p className="font-semibold">Plan:</p> <p>{client?.plan[0]?.plan}</p>
         </div>
         <div className="flex gap-3">
           {" "}

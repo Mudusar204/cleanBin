@@ -217,7 +217,7 @@ const Page = () => {
       return (
         cleaningDate.getDate() === tomorrow.getDate() &&
         cleaningDate.getMonth() === tomorrow.getMonth() &&
-        cleaningDate.getFullYear() === tomorrow.getFullYear()  && cleaning.plan===services[activeItem]
+        cleaningDate.getFullYear() === tomorrow.getFullYear()  && cleaning.service===services[activeItem]
       );
     });
   }
@@ -231,7 +231,7 @@ const Page = () => {
       return (
         cleaningDate.getDate() === previousDate.getDate() &&
         cleaningDate.getMonth() === previousDate.getMonth() &&
-        cleaningDate.getFullYear() === previousDate.getFullYear()&& cleaning.plan===services[activeItem]
+        cleaningDate.getFullYear() === previousDate.getFullYear()&& cleaning.service===services[activeItem]
       );
     });
   }
@@ -362,6 +362,17 @@ const Page = () => {
               item={{ ...tomorrowCleaningState, title: "Next Cleaning" }}
               w={"50%"}
             />
+          </div>
+          <div className="my-5 flex w-full justify-end">
+            <button
+              disabled={skip ? true : false}
+              onClick={() => {
+                skipThisWeekFun();
+              }}
+              className="bg-blue-500 rounded-2xl px-[25px] text-white py-[10px]"
+            >
+              Skip this week
+            </button>
           </div>
         </div>
       )}
