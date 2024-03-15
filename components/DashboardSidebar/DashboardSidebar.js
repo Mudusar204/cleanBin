@@ -103,9 +103,9 @@ export function SidebarItem({ icon, text, active, alert, onClick }) {
     `}
       onClick={() => handleClick()}
     >
-      {icon && (
-        <img src={icon} alt="icon" className="h-10 w-10 bg-transparent" />
-      )}
+      {typeof icon === "string" ? (
+        <img src={icon} alt="icon" className="h-9 w-10 bg-transparent" />
+      ):icon }
       {/* {icon} */}
       <span
         className={`overflow-hidden transition-all ${expanded ? "w-52 ml-3" : "w-0"

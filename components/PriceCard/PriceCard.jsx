@@ -17,7 +17,7 @@ const PriceCard = (props) => {
     <div
       className={`${
         props.bg ? 'bg-[#DCEEFC]' : 'bg-white'
-      } w-[30%] max-lg:w-[70%] max-md:w-[90%] max-2xl:w-[60%] px-[50px] py-[50px] flex flex-col justify-center items-center  gap-[20px]`}
+      } w-[30%] border-[1px] rounded-lg mx-3 border-black max-lg:w-[70%] max-md:w-[90%] max-2xl:w-[60%] px-[50px] py-[50px] flex flex-col justify-center items-center  gap-[20px]`}
     >
       <div className='flex gap-[20px]'>
         <img className='mt-[-10px]' height={100} width={100} src={props.img} alt='' />
@@ -29,22 +29,19 @@ const PriceCard = (props) => {
       </div>
       <div className='w-full justify-center px-[50px]'>
         <div className='flex justify-between w-full text-[20px] font-thin mb-[10px]'>
-          {' '}
-          <p>Red Dustbin |</p>{' '}
+          <p>{props.service1}</p>{' '}
           <p>
             <CheckBadgeIcon className='h-10 w-10 text-green-500' />
           </p>
         </div>
         <div className='flex justify-between w-full text-[20px] font-thin mb-[10px]'>
-          {' '}
-          <p>Blue Dustbin |</p>{' '}
+          <p>{props.service2}</p>{' '}
           <p>
             <CheckBadgeIcon className='h-10 w-10 text-green-500' />
           </p>
         </div>
         <div className='flex justify-between w-full text-[20px] font-thin mb-[10px]'>
-          {' '}
-          <p>Green Dustbin |</p>{' '}
+          <p>{props.service3}</p>{' '}
           <p>
             <CheckBadgeIcon className='h-10 w-10 text-green-500' />
           </p>

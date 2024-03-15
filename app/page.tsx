@@ -90,6 +90,9 @@ export default function Home() {
       skirtDress: 5,
       pants: 1,
       blouse: 9,
+      service1:"Red Dustbin |",
+      service2:"Blue Dustbin |",
+      service3:"Green Dustbin |",
     },
     {
       bg: '',
@@ -102,6 +105,9 @@ export default function Home() {
       skirtDress: 5,
       pants: 1,
       blouse: 9,
+      service1:"Inside |",
+      service2:"Outside |",
+      service3:"Engine |",
     },
     {
       bg: '#DCEEFC',
@@ -114,6 +120,9 @@ export default function Home() {
       skirtDress: 5,
       pants: 1,
       blouse: 9,
+      service1:"Floor Cleaning |",
+      service2:"Roof Cleaning|",
+      service3:"Carpet Cleaning |",
     },
   ]
   return (
@@ -180,14 +189,14 @@ export default function Home() {
       </div>
       {/* Pricing section */}
       <div>
-        <div className='bg-[#E1EDF9] pt-[100px] pb-[50px] px-[15%]'>
+        <div className=' pt-[100px] pb-[50px] px-[15%]'>
           <p className='text-[55px] font-extrabold '>
             {' '}
             <span className='border-b-[10px] border-black pb-[20px]'>PRICELIST</span>
           </p>
           <p className='text-[20px] font-thin mt-[50px]'>OUR SERVICES:</p>
         </div>
-        <div className='flex justify-center  max-2xl:flex-wrap max-2xl:gap-[30px] bg-[#E6F3FF]'>
+        <div className='flex justify-center   max-2xl:flex-wrap max-2xl:gap-[30px] '>
           {priceCard.map((service, index) => (
             <PriceCard
               heading={service.heading}
@@ -195,6 +204,9 @@ export default function Home() {
               img={service.img}
               bg={service.bg}
               key={index}
+              service1={service.service1}
+              service2={service.service2}
+              service3={service.service3}
             />
           ))}
         </div>
@@ -202,11 +214,11 @@ export default function Home() {
       {/* Contact Us */}
 
       {/* footer */}
-      <div className='bg-[#E1EDF9] pt-5 pb-[50px] flex flex-col justify-center items-center '>
+      <div className=' pt-5 pb-[50px] flex flex-col justify-center items-center '>
         <p className='text-[24px] font-extrabold text-center mb-[40px] '>BACK TO TOP</p>
 
         <p className='text-[20px] font-thin text-center'>
-          © 2035 by Laundry Shop. Powered and secured by Wix
+          © 2024 by Clean Bin. Powered and secured by Wix
         </p>
       </div>
     </div>

@@ -33,15 +33,16 @@ import {
   blockUnBlockUser,
   getTodayCleanings,
   getTomorrowCleanings,
-  getAllPayments
-  
+  getAllPayments,
 } from "@/store/adminSlice";
-import { getUserDetails,setUser } from "@/store/userSlice";
+import { getUserDetails, setUser } from "@/store/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import "react-calendar/dist/Calendar.css";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 const Page = () => {
   const dispatch = useDispatch();
+  const router=useRouter()
   const [activeItem, setActiveItem] = useState(0);
   const [showMenu, setShowMenu] = useState(false);
   const [clients, setClients] = useState([]);
@@ -49,6 +50,9 @@ const Page = () => {
 
   const [todayCleaning, setTodayCleaning] = useState([]);
   const [tomorrowCleaning, setTomorrowCleaning] = useState([]);
+
+  const [isAdmin, setIsAdmin] = useState(false);
+
   const toggleMenu = () => {
     setShowMenu(!showMenu);
   };
@@ -57,6 +61,17 @@ const Page = () => {
     setActiveItem(index);
   };
 
+  useEffect(() => {
+   let role = localStorage.getItem("role");
+    if (role == "admin") {
+      setIsAdmin(true);
+    }else{
+      toast.dismiss()
+      toast.error("you are not admin")
+      router.push("/login")
+
+    }
+  }, []);
   useEffect(() => {
     try {
       const getAllUserFun = async () => {
@@ -70,7 +85,7 @@ const Page = () => {
         setClients(res.payload.data);
         setTodayCleaning(res1.payload.data);
         setTomorrowCleaning(res2.payload.data);
-        getAllPaymentHistory()
+        getAllPaymentHistory();
       };
       getAllUserFun();
     } catch (error) {
@@ -147,78 +162,80 @@ const Page = () => {
   };
 
   return (
-    <div className="flex justify-between items-start">
-      <div className="w-[20%] max-sm:w-[10%]">
-        <Sidebar>
-          <SidebarItem
-            icon={<RectangleGroupIcon className="h-[40px] w-[40px]" />}
-            text="Dashboard"
-            active={activeItem === 0}
-            onClick={() => handleItemClick(0)}
-            alert={activeItem === 0}
-          />
-          <SidebarItem
-            icon={<UserGroupIcon className="h-[40px] w-[40px]" />}
-            text="Clients"
-            alert={activeItem === 1}
-            active={activeItem === 1}
-            onClick={() => handleItemClick(1)}
-          />
-          <SidebarItem
-            icon={<CurrencyDollarIcon className="h-[40px] w-[40px]" />}
-            text="Payments"
-            alert={activeItem === 2}
-            active={activeItem === 2}
-            onClick={() => handleItemClick(2)}
-          />
-        </Sidebar>
-      </div>
-
-      {activeItem == 0 && (
-        <div className="w-full mx-[50px] max-sm:mx-0 h-screen overflow-scroll">
-          <div>
-            <p className="text-center text-[40px] mt-10">Dashboard</p>
-            {todayCleaning.length > 0 ? (
-              <div className="flex justify-between w-full max-lg:flex-wrap mt-[30px]">
-                <div className="w-full">
-                  <p className="text-center font-bold text-[26px] mb-2">
-                    Today Cleaning
-                  </p>
-                  <div>
-                    {todayCleaning.map((item, i) => (
-                      <CleaningCard item={item} key={i} w={"100%"} />
-                    ))}
-                  </div>
-                </div>
-                <div className="w-full">
-                  <p className="text-center font-bold text-[26px] mb-2">
-                    Tomorrow Cleaning
-                  </p>
-
-                  <div>
-                    {tomorrowCleaning.map((item, i) => (
-                      <CleaningCard item={item} key={i} w={"100%"} />
-                    ))}
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <div className="w-full justify-start ml-[45%] items-center h-[300px] mt-[200px]">
-                <Oval
-                  visible={true}
-                  height="80"
-                  width="80"
-                  color="lightblue"
-                  ariaLabel="oval-loading"
-                  wrapperStyle={{ color: "red" }}
-                  secondaryColor="blue"
-                  wrapperClass=""
-                />
-              </div>
-            )}
+    <>
+      {isAdmin ? (
+        <div className="flex justify-between items-start">
+          <div className="w-[20%] max-sm:w-[10%]">
+            <Sidebar>
+              <SidebarItem
+                icon={<RectangleGroupIcon className="h-[40px] w-[40px]" />}
+                text="Dashboard"
+                active={activeItem === 0}
+                onClick={() => handleItemClick(0)}
+                alert={activeItem === 0}
+              />
+              <SidebarItem
+                icon={<UserGroupIcon className="h-[40px] w-[40px]" />}
+                text="Clients"
+                alert={activeItem === 1}
+                active={activeItem === 1}
+                onClick={() => handleItemClick(1)}
+              />
+              <SidebarItem
+                icon={<CurrencyDollarIcon className="h-[40px] w-[40px]" />}
+                text="Payments"
+                alert={activeItem === 2}
+                active={activeItem === 2}
+                onClick={() => handleItemClick(2)}
+              />
+            </Sidebar>
           </div>
 
-          {/* <div className="w-full mt-10 h-[300px]">
+          {activeItem == 0 && (
+            <div className="w-full mx-[50px] max-sm:mx-0 h-screen overflow-scroll">
+              <div>
+                <p className="text-center text-[40px] mt-10">Dashboard</p>
+                {todayCleaning.length > 0 ? (
+                  <div className="flex justify-between w-full max-lg:flex-wrap mt-[30px]">
+                    <div className="w-full">
+                      <p className="text-center font-bold text-[26px] mb-2">
+                        Today Cleaning
+                      </p>
+                      <div>
+                        {todayCleaning.map((item, i) => (
+                          <CleaningCard item={item} key={i} w={"100%"} />
+                        ))}
+                      </div>
+                    </div>
+                    <div className="w-full">
+                      <p className="text-center font-bold text-[26px] mb-2">
+                        Tomorrow Cleaning
+                      </p>
+
+                      <div>
+                        {tomorrowCleaning.map((item, i) => (
+                          <CleaningCard item={item} key={i} w={"100%"} />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="w-full justify-start ml-[45%] items-center h-[300px] mt-[200px]">
+                    <Oval
+                      visible={true}
+                      height="80"
+                      width="80"
+                      color="lightblue"
+                      ariaLabel="oval-loading"
+                      wrapperStyle={{ color: "red" }}
+                      secondaryColor="blue"
+                      wrapperClass=""
+                    />
+                  </div>
+                )}
+              </div>
+
+              {/* <div className="w-full mt-10 h-[300px]">
             <FullCalendar
               plugins={[dayGridPlugin]}
               initialView="dayGridMonth"
@@ -230,132 +247,138 @@ const Page = () => {
               ]}
             />
           </div> */}
-        </div>
-      )}
-
-      {activeItem == 1 && (
-        <div className="w-full mx-[50px] max-sm:mx-0  h-screen overflow-scroll">
-          <p className="text-center text-[40px] mt-10">Clients</p>
-          <div className="flex flex-col gap-5 mt-[30px] ">
-            {clients.map((client, i) => (
-              <ClientCard
-              key={i}
-                client={client}
-                deleteUserFun={deleteUserFun}
-                blockUnBlockUserFun={blockUnBlockUserFun}
-              />
-            ))}
-          </div>
-        </div>
-      )}
-
-      {activeItem == 2 && (
-        <div className="w-full mx-[50px] max-sm:mx-0 h-screen overflow-scroll">
-          <p className="text-center text-[40px] mt-10">Pending Payments</p>
-          <div className="  overflow-hidden border-b-2 border-gray-800 w-full mt-[20px]">
-            <div className="px-6 py-4 flex justify-between gap-3">
-              <div className="flex font-bold w-[10%]">
-                {" "}
-                <p>From</p>
-              </div>
-              <div className="flex font-bold w-[10%]">
-                <p>Email:</p>
-              </div>
-              <div className="flex font-bold w-[10%]">
-                <p>Date:</p>
-              </div>
-              <div className="flex font-bold w-[10%] whitespace-nowrap">
-                <p>Recipient No</p>
-              </div>
-              <div className="flex font-bold w-[10%]">
-                <p>Amount</p>
-              </div>
-             
-              <div className=" font-bold w-[10%]">Print</div>
             </div>
-          </div>
-          <div className="flex flex-col gap-5 mt-[30px]">
-          {paymentHistory.length > 0 ? (
-              paymentHistory.map((item, i) => <PaymentHistory item={item} key={i} />)
-            ) : (
-              <Oval
-                visible={true}
-                height="80"
-                width="80"
-                color="lightblue"
-                ariaLabel="oval-loading"
-                wrapperStyle={{ color: "red" }}
-                secondaryColor="blue"
-                wrapperClass=""
-              />
+          )}
+
+          {activeItem == 1 && (
+            <div className="w-full mx-[50px] max-sm:mx-0  h-screen overflow-scroll">
+              <p className="text-center text-[40px] mt-10">Clients</p>
+              <div className="flex flex-col gap-5 mt-[30px] ">
+                {clients.map((client, i) => (
+                  <ClientCard
+                    key={i}
+                    client={client}
+                    deleteUserFun={deleteUserFun}
+                    blockUnBlockUserFun={blockUnBlockUserFun}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+
+          {activeItem == 2 && (
+            <div className="w-full mx-[50px] max-sm:mx-0 h-screen overflow-scroll">
+              <p className="text-center text-[40px] mt-10">Pending Payments</p>
+              <div className="  overflow-hidden border-b-2 border-gray-800 w-full mt-[20px]">
+                <div className="px-6 py-4 flex justify-between gap-3">
+                  <div className="flex font-bold w-[10%]">
+                    {" "}
+                    <p>From</p>
+                  </div>
+                  <div className="flex font-bold w-[10%]">
+                    <p>Email:</p>
+                  </div>
+                  <div className="flex font-bold w-[10%]">
+                    <p>Date:</p>
+                  </div>
+                  <div className="flex font-bold w-[10%] whitespace-nowrap">
+                    <p>Recipient No</p>
+                  </div>
+                  <div className="flex font-bold w-[10%]">
+                    <p>Amount</p>
+                  </div>
+
+                  <div className=" font-bold w-[10%]">Print</div>
+                </div>
+              </div>
+              <div className="flex flex-col gap-5 mt-[30px]">
+                {paymentHistory.length > 0 ? (
+                  paymentHistory.map((item, i) => (
+                    <PaymentHistory item={item} key={i} />
+                  ))
+                ) : (
+                  <Oval
+                    visible={true}
+                    height="80"
+                    width="80"
+                    color="lightblue"
+                    ariaLabel="oval-loading"
+                    wrapperStyle={{ color: "red" }}
+                    secondaryColor="blue"
+                    wrapperClass=""
+                  />
+                )}
+              </div>
+              <p className="text-center text-[40px] mt-10">Received Payments</p>
+              <div className="  overflow-hidden border-b-2 border-gray-800 w-full mt-[20px]">
+                <div className="px-6 py-4 flex justify-between gap-3">
+                  <div className="flex font-bold w-[10%]">
+                    {" "}
+                    <p>From</p>
+                  </div>
+                  <div className="flex font-bold w-[10%]">
+                    <p>Email:</p>
+                  </div>
+                  <div className="flex font-bold w-[10%]">
+                    <p>Date:</p>
+                  </div>
+                  <div className="flex font-bold w-[10%] whitespace-nowrap">
+                    <p>Recipient No</p>
+                  </div>
+                  <div className="flex font-bold w-[10%]">
+                    <p>Amount</p>
+                  </div>
+
+                  <div className=" font-bold w-[10%]">Print</div>
+                </div>
+              </div>
+              <div className="flex flex-col gap-5 mt-[30px]">
+                {paymentHistory.length > 0 ? (
+                  paymentHistory.map((item, i) => (
+                    <PaymentHistory key={i} item={item} />
+                  ))
+                ) : (
+                  <Oval
+                    visible={true}
+                    height="80"
+                    width="80"
+                    color="lightblue"
+                    ariaLabel="oval-loading"
+                    wrapperStyle={{ color: "red" }}
+                    secondaryColor="blue"
+                    wrapperClass=""
+                  />
+                )}
+              </div>
+            </div>
+          )}
+
+          <div className="mr-[30px] flex flex-col justify-end items-end max-lg:w-[10px]">
+            <UserCircleIcon
+              className="rounded-full h-16 w-16 max-sm:w-[40px] max-sm:h-[40px] mt-4 cursor-pointer"
+              onClick={toggleMenu}
+              //   onMouseLeave={toggleMenu}
+            />
+            {showMenu && (
+              <div className="flex flex-col  mt-4 bg-slate-100">
+                <button className="flex items-center space-x-2 px-4 py-2 rounded-lg hover:bg-gray-200 whitespace-nowrap">
+                  <UserCircleIcon className="h-5 w-5 " />
+                  Sign Out
+                </button>
+                <button className="flex items-center space-x-2 px-4 py-2 rounded-lg hover:bg-gray-200">
+                  <QuestionMarkCircleIcon className="h-5 w-5" />
+                  Help
+                </button>
+                <button className="flex items-center space-x-2 px-4 py-2 rounded-lg hover:bg-gray-200">
+                  <Cog8ToothIcon className="h-5 w-5" />
+                  Settings
+                </button>
+              </div>
             )}
           </div>
-          <p className="text-center text-[40px] mt-10">Received Payments</p>
-          <div className="  overflow-hidden border-b-2 border-gray-800 w-full mt-[20px]">
-            <div className="px-6 py-4 flex justify-between gap-3">
-              <div className="flex font-bold w-[10%]">
-                {" "}
-                <p>From</p>
-              </div>
-              <div className="flex font-bold w-[10%]">
-                <p>Email:</p>
-              </div>
-              <div className="flex font-bold w-[10%]">
-                <p>Date:</p>
-              </div>
-              <div className="flex font-bold w-[10%] whitespace-nowrap">
-                <p>Recipient No</p>
-              </div>
-              <div className="flex font-bold w-[10%]">
-                <p>Amount</p>
-              </div>
-            
-              <div className=" font-bold w-[10%]">Print</div>
-            </div>
-          </div>
-          <div className="flex flex-col gap-5 mt-[30px]">
-          {paymentHistory.length > 0 ? (
-              paymentHistory.map((item, i) => <PaymentHistory key={i} item={item} />)
-            ) : (
-              <Oval
-                visible={true}
-                height="80"
-                width="80"
-                color="lightblue"
-                ariaLabel="oval-loading"
-                wrapperStyle={{ color: "red" }}
-                secondaryColor="blue"
-                wrapperClass=""
-              />
-            )}
-          </div>
         </div>
-      )}
-
-      <div className="mr-[30px] flex flex-col justify-end items-end max-lg:w-[10px]">
-        <UserCircleIcon
-          className="rounded-full h-16 w-16 max-sm:w-[40px] max-sm:h-[40px] mt-4 cursor-pointer"
-          onClick={toggleMenu}
-          //   onMouseLeave={toggleMenu}
-        />
-        {showMenu && (
-          <div className="flex flex-col  mt-4 bg-slate-100">
-            <button className="flex items-center space-x-2 px-4 py-2 rounded-lg hover:bg-gray-200 whitespace-nowrap">
-              <UserCircleIcon className="h-5 w-5 " />
-              Sign Out
-            </button>
-            <button className="flex items-center space-x-2 px-4 py-2 rounded-lg hover:bg-gray-200">
-              <QuestionMarkCircleIcon className="h-5 w-5" />
-              Help
-            </button>
-            <button className="flex items-center space-x-2 px-4 py-2 rounded-lg hover:bg-gray-200">
-              <Cog8ToothIcon className="h-5 w-5" />
-              Settings
-            </button>
-          </div>
-        )}
-      </div>
-    </div>
+      ) : null}
+    </>
   );
 };
 

@@ -135,7 +135,8 @@ function Page() {
     )
   }
   return (
-    <div className='bg-[#CFE6FA] flex flex-col justify-center h-screen items-center'>
+
+    <div style={{backgroundImage: `url("/cleaning-tools-hero.jpeg")`,backgroundSize: 'cover'} } className=' flex flex-col  justify-center h-screen items-center'>
       <p className='text-center text-[40px] font-semibold mb-10'>Confirm Your Order</p>
       <select
         name='cleanType'
@@ -150,7 +151,7 @@ function Page() {
         <option value='Car Wash'>Car Wash</option>
         <option value='Commercial Cleaning'>Commercial Cleaning</option>
       </select>
-      <div className='w-[50%] flex justify-between flex-wrap items-start gap-[40px] p-[40px] bg-[#FFFFFF] rounded-[24px]'>
+      <div className='w-[50%] flex justify-between flex-wrap items-start gap-[40px] p-[40px] bg-[#fff] rounded-[24px]'>
         <div className='flex flex-col items-start  gap-[10px]'>
           <p className='text-black font-poppins text-[34px] font-medium'>Fee Charges</p>
           <div className='flex items-center justify-center  gap-[12px]'>
@@ -187,7 +188,7 @@ function Page() {
         </div>
       </div>
       <div className='w-[50%] mt-5 flex '>
-        <input type='text' placeholder='Enter you note' className='w-full p-5 rounded-xl ' />
+        <input type='text' placeholder='Enter you note' className='w-full p-5 rounded-xl bg-[#fff]' />
       </div>
       <div className='w-[50%] mt-5 flex '>
         <button
