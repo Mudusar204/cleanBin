@@ -1,3 +1,4 @@
+// @ts-nocheck
 // utils/dbConnect.js
 
 import mongoose from 'mongoose';

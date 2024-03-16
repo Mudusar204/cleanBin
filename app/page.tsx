@@ -39,7 +39,7 @@ export default function Home() {
     }
   }, [])
 
-  const { userDetail, isUserLogin } = useSelector((store) => store.userSlice)
+  const { userDetail, isUserLogin } = useSelector((store: any) => store.userSlice)
 
   let services = [
     {

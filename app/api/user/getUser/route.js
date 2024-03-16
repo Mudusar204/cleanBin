@@ -1,3 +1,4 @@
+// @ts-nocheck
 import User from "../../../../server/modal/User";
 import { NextResponse } from "next/server";
 import dbConnect from "../../../../server/utils/dbConnect";

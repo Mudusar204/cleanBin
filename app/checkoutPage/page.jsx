@@ -2,7 +2,7 @@
 "use client";
 import React from "react";
 import { useState, useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import StripeCheckout from "@/components/StripeCheckout/StripeCheckout";
 import {
   ChevronLeftIcon,
@@ -29,8 +29,8 @@ function Page() {
   const [amount, setAmount] = useState(0);
   const [isCardAdded, setIsCardAdded] = useState(false);
   const [paymentSendSuccess, setPaymentSendSuccess] = React.useState(false);
-  const searchParams = useSearchParams();
-  const planNameParams = searchParams.get("planName");
+  // const searchParams = useSearchParams();
+  // const planNameParams = searchParams.get("planName");
   const [plan, setPlan] = useState("");
   const [service, setService] = useState("");
   const [time, setTime] = useState("");

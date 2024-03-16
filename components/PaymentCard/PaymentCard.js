@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react'
 import { useState } from 'react';
 const PaymentCard = ({ title, description,date }) => {
